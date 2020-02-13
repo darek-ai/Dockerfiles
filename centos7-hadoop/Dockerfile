@@ -74,6 +74,9 @@ ADD hbase-1.4.12-bin.tar.gz /usr/local/
 RUN chown -R hadoop:hadoop /usr/local/hbase-1.4.12
 # 建立软连接
 RUN cd /usr/local && ln -s ./hbase-1.4.12 hbase
+# 将core-site.xml hdfs-site.xml两文件连接到hadoop的配置文件，否则hbase集群启动可能找不到nameservice
+RUN cd /usr/local/hbase/conf && ln -s /usr/local/hadoop/etc/hadoop/core-site.xml core-site.xml && ln -s /usr/local/hadoop/etc/hadoop/hdfs-site.xml hdfs-site.xml
+
 # 配置环境变量
 ENV HBASE_HOME=/usr/local/hbase
 ENV PATH=$HBASE_HOME/bin:$PATH

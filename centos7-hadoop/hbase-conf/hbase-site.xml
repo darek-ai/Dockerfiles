@@ -21,7 +21,11 @@
  */
 -->
 <configuration>
-    <!-- 指定 hbase 在 HDFS 上存储的路径,【hadoopcluster】为nameservice id -->
+    <!--
+        指定 hbase 在 HDFS 上存储的路径
+        hbase.rootdir 里面的 HDFS 地址是要跟 Hadoop 的 core-site.xml 里面的 fs.defaultFS 的 HDFS 的 IP 地址或者域名、端口必须一致。
+        这里配置的是 Hadoop HA场景，【hadoopcluster】是集群servicename, /hbase 是指在hdfs里的目录
+    -->
     <property>
         <name>hbase.rootdir</name>
         <value>hdfs://hadoopcluster/hbase</value>
