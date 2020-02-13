@@ -1,0 +1,144 @@
+version: "3.7"
+
+# 为集群创建独立的网络
+networks:
+  hadoopnet: # 自定义网络名称
+    ipam:
+      config:
+        - subnet: 172.11.0.0/16
+
+# 容器组定义
+services:
+  hadoop1:            # 容器名称
+    image: centos7-hadoop:1.0
+    container_name: hadoop1 #容器名称，指定后服务编排时将不支持复制
+    restart: always   # 指定容器退出后的重启策略为始终重启
+    ports:            # 暴露端口
+      - "18088:8088"  # yarn web ui
+      - "50070:50070" # hadoop web ui
+      - "16010:16010" # hbase web ui
+      - "19888:19888" # mapreduce history job
+      - "2181:2181"   # zookeeper
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "hadoop1:172.11.0.2"
+      - "hadoop2:172.11.0.3"
+      - "hadoop3:172.11.0.4"
+      - "hadoop4:172.11.0.5"
+    networks:
+      hadoopnet:
+        ipv4_address: 172.11.0.2
+    environment:  # 环境变量
+      ZK_SERVER_ID: 1
+    volumes:          # 挂载数据卷
+      - /Users/roy/Docker/hadoop_cluster/hadoop1:/home/hadoop/data
+    entrypoint: /home/hadoop/bootstrap.sh # 启动脚本
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  hadoop2:            # 容器名称
+    image: centos7-hadoop:1.0
+    container_name: hadoop2 #容器名称，指定后服务编排时将不支持复制
+    restart: always   # 指定容器退出后的重启策略为始终重启
+    ports:            # 暴露端口
+      - "18087:8088"  # yarn web ui
+      - "50071:50070" # hadoop web ui
+      - "16011:16010" # hbase web ui
+      - "19887:19888" # mapreduce history job
+      - "2182:2182"   # zookeeper
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "hadoop1:172.11.0.2"
+      - "hadoop2:172.11.0.3"
+      - "hadoop3:172.11.0.4"
+      - "hadoop4:172.11.0.5"
+    networks:
+      hadoopnet:
+        ipv4_address: 172.11.0.3
+    environment:  # 环境变量
+      ZK_SERVER_ID: 2
+    volumes:          # 挂载数据卷
+      - /Users/roy/Docker/hadoop_cluster/hadoop2:/home/hadoop/data
+    entrypoint: /home/hadoop/bootstrap.sh # 启动脚本
+    depends_on:
+      - hadoop1
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  hadoop3:            # 容器名称
+    image: centos7-hadoop:1.0
+    container_name: hadoop3 #容器名称，指定后服务编排时将不支持复制
+    restart: always   # 指定容器退出后的重启策略为始终重启
+    ports:            # 暴露端口
+      - "18086:8088"  # yarn web ui
+      - "50072:50070" # hadoop web ui
+      - "16012:16010" # hbase web ui
+      - "19886:19888" # mapreduce history job
+      - "2183:2183"   # zookeeper
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "hadoop1:172.11.0.2"
+      - "hadoop2:172.11.0.3"
+      - "hadoop3:172.11.0.4"
+      - "hadoop4:172.11.0.5"
+    networks:
+      hadoopnet:
+        ipv4_address: 172.11.0.4
+    environment:  # 环境变量
+      ZK_SERVER_ID: 3
+    volumes:          # 挂载数据卷
+      - /Users/roy/Docker/hadoop_cluster/hadoop3:/home/hadoop/data
+    entrypoint: /home/hadoop/bootstrap.sh # 启动脚本
+    depends_on:
+      - hadoop2
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  hadoop4:            # 容器名称
+    image: centos7-hadoop:1.0
+    container_name: hadoop4 #容器名称，指定后服务编排时将不支持复制
+    restart: always   # 指定容器退出后的重启策略为始终重启
+    ports:            # 暴露端口
+      - "18085:8088"  # yarn web ui
+      - "50073:50070" # hadoop web ui
+      - "16013:16010" # hbase web ui
+      - "19885:19888" # mapreduce history job
+      - "2184:2184"   # zookeeper
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "hadoop1:172.11.0.2"
+      - "hadoop2:172.11.0.3"
+      - "hadoop3:172.11.0.4"
+      - "hadoop4:172.11.0.5"
+    networks:
+      hadoopnet:
+        ipv4_address: 172.11.0.5
+    environment:  # 环境变量
+      ZK_SERVER_ID: 4
+    volumes:          # 挂载数据卷
+      - /Users/roy/Docker/hadoop_cluster/hadoop4:/home/hadoop/data
+    entrypoint: /home/hadoop/bootstrap.sh # 启动脚本
+    depends_on:
+      - hadoop3
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出

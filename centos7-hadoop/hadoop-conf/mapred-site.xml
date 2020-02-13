@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- 指定mapreduce框架为yarn方式 -->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+
+    <!-- 指定mapreduce jobhistory地址 -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>hadoop1:10020</value>
+    </property>
+
+    <!-- 历史任务服务器的web地址 -->
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>hadoop1:19888</value>
+    </property>
+
+</configuration>

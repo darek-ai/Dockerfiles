@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+    <!-- 指定副本数，不能超过机器节点数  -->
+    <property>
+        <name>dfs.replication</name>
+        <value>3</value>
+    </property>
+
+    <!-- 配置namenode和datanode的数据存储目录 -->
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:/home/hadoop/data/namenode</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:/home/hadoop/data/datanode</value>
+    </property>
+
+    <!-- 启用webhdfs -->
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+
+
+    <!--指定hdfs的nameservice为hadoopcluster，需要和core-site.xml中的保持一致
+                 dfs.ha.namenodes.[nameservice id]为在nameservice中的每一个NameNode设置唯一标示符。
+        配置一个逗号分隔的NameNode ID列表。这将是被DataNode识别为所有的NameNode。
+        例如:使用"hadoopcluster"作为nameservice id，并且使用"nn1"和"nn2"作为NameNodes标示符
+    -->
+    <property>
+        <name>dfs.nameservices</name>
+        <value>hadoopcluster</value>
+    </property>
+
+    <!-- hadoopcluster下面有两个NameNode，分别是nn1，nn2 -->
+    <property>
+        <name>dfs.ha.namenodes.hadoopcluster</name>
+        <value>nn1,nn2</value>
+    </property>
+
+    <!-- nn1的RPC通信地址 -->
+    <property>
+        <name>dfs.namenode.rpc-address.hadoopcluster.nn1</name>
+        <value>hadoop1:8020</value>
+    </property>
+
+    <!-- nn1的http通信地址 -->
+    <property>
+        <name>dfs.namenode.http-address.hadoopcluster.nn1</name>
+        <value>hadoop1:50070</value>
+    </property>
+
+    <!-- nn2的RPC通信地址 -->
+    <property>
+        <name>dfs.namenode.rpc-address.hadoopcluster.nn2</name>
+        <value>hadoop2:8020</value>
+    </property>
+
+    <!-- nn2的http通信地址 -->
+    <property>
+        <name>dfs.namenode.http-address.hadoopcluster.nn2</name>
+        <value>hadoop2:50070</value>
+    </property>
+
+
+    <!-- 指定NameNode的edits元数据的共享存储位置。也就是JournalNode列表
+                 该url的配置格式：qjournal://host1:port1;host2:port2;host3:port3/journalId
+        journalId推荐使用nameservice，默认端口号是：8485
+    -->
+    <property>
+        <name>dfs.namenode.shared.edits.dir</name>
+        <value>qjournal://hadoop1:8485;hadoop2:8485;hadoop3:8485/hadoopcluster</value>
+    </property>
+
+    <!-- 指定JournalNode在本地磁盘存放数据的位置 -->
+    <property>
+        <name>dfs.journalnode.edits.dir</name>
+        <value>/home/hadoop/data/journaldata</value>
+    </property>
+
+    <!-- 开启NameNode故障自动切换 -->
+    <property>
+        <name>dfs.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+
+    <!-- 配置ha自动切换实现方式 -->
+    <property>
+        <name>dfs.client.failover.proxy.provider.hadoopcluster</name>
+        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+
+    <!-- 配置隔离机制方法，多个机制用换行分割，即每个机制暂用一行
+    NameNode采用HA架构部署，在Standby切换为Active的过程中存在一个fence阶段，如果该阶段不返回true，则无法继续往下进行，即无法完成failover
+    由于没有直接关于fence retry次数的参数配置，采取如下变通方案：
+    配置4个fence method，3次sshfence，1次shell(/bin/true)，可以保证在3次sshfence失败之后结束fence阶段，完成failover。
+    -->
+    <property>
+        <name>dfs.ha.fencing.methods</name>
+        <value>
+            sshfence
+            sshfence
+            sshfence
+            shell(/bin/true)
+        </value>
+    </property>
+
+    <!-- 使用sshfence隔离机制时需要ssh免登陆 -->
+    <property>
+        <name>dfs.ha.fencing.ssh.private-key-files</name>
+        <value>/home/hadoop/.ssh/id_rsa</value>
+    </property>
+
+    <!-- 配置sshfence隔离机制超时时间 -->
+    <property>
+        <name>dfs.ha.fencing.ssh.connect-timeout</name>
+        <value>10000</value>
+    </property>
+
+    <property>
+        <name>ha.failover-controller.cli-check.rpc-timeout.ms</name>
+        <value>60000</value>
+    </property>
+
+
+</configuration>
