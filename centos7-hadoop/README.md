@@ -1,4 +1,4 @@
-# Centos Hadoop Hbase HA安装配置
+# Centos+Hadoop+Hbase+Zookeeper HA集群部署
 
 ## 服务器列表
 
