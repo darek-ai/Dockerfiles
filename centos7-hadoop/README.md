@@ -406,16 +406,15 @@ standby
 ```
 
 ## 通过Web UI查看集群状态
+因为是docker容器部署，相应主机端口已映射到本地宿主机，对应如下：
 
-http://hadoop1:50070/
+http://hadoop1:50070/   -->     http://localhost:50070/
 
-http://hadoop2:50070/
+http://hadoop2:50070/   -->     http://localhost:50071/
 
-http://hadoop1:19888/jobhistory
+http://hadoop1:19888/   -->     http://localhost:19888/
 
-http://hadoop3:8088/
-
-http://hadoop4:8088/
+http://hadoop3:8088/    -->     http://localhost:18086/
 
 
 ## 验证HA故障切换
@@ -478,7 +477,7 @@ hbase-daemon.sh start regionserver
 ```
 
 ### 验证Hbase集群启动状态
+容器端口已映射到宿住机，对应如下：<br>
+http://hadoop3:16010/   -->     http://localhost:16011/
 
-http://hadoop3:16010/master-status
-
-http://hadoop4:16010/master-status
+http://hadoop4:16010/   -->     http://localhost:16013/
