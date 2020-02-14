@@ -125,6 +125,11 @@ RUN sudo chmod +x /home/hadoop/bootstrap.sh
 COPY --chown=hadoop:hadoop entrypoint.sh entrypoint.sh
 RUN sudo chmod +x /home/hadoop/entrypoint.sh
 
+# 添加集群启动脚本
+COPY --chown=hadoop:hadoop start-cluster.sh start-cluster.sh
+RUN sudo chmod +x /home/hadoop/start-cluster.sh
+
+
 # 健康检查
 # 每隔10秒检查一次，检查超时间2秒，超时被认为检查失败，重试3次如果都检查失败，容器被认为不健康unhealthy
 HEALTHCHECK --interval=10s --timeout=2s --retries=3 CMD ["/bin/bash"]
