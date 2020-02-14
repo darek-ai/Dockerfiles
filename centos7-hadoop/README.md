@@ -409,12 +409,25 @@ standby
 因为是docker容器部署，相应主机端口已映射到本地宿主机，对应如下：
 
 http://hadoop1:50070/   -->     http://localhost:50070/
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/50070.png)
+<br>
+<br>
 
 http://hadoop2:50070/   -->     http://localhost:50071/
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/50071.png)
+<br>
+<br>
+
 
 http://hadoop1:19888/   -->     http://localhost:19888/
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/19888.png)
+<br>
+<br>
 
 http://hadoop3:8088/    -->     http://localhost:18086/
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/18086.png)
+<br>
+<br>
 
 
 ## 验证HA故障切换
@@ -479,5 +492,8 @@ hbase-daemon.sh start regionserver
 ### 验证Hbase集群启动状态
 容器端口已映射到宿住机，对应如下：<br>
 http://hadoop3:16010/   -->     http://localhost:16011/
-
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/16011.png)
+<br>
+<br>
 http://hadoop4:16010/   -->     http://localhost:16013/
+![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/16013.png)
