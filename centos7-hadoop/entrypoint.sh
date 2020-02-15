@@ -1,28 +1,14 @@
 #!/usr/bin/env bash
 
-# ssh免交互登录，进入到远程主机后，休眠2秒，然后退出远程主机，返回本机
-echo "ssh login to hadoop1"
-ssh -o stricthostkeychecking=no hadoop@hadoop1 "sleep 1s; exit;"
-echo "logout successfully"
-echo ""
-sleep 2s
-
-echo "ssh login to hadoop2"
-ssh -o stricthostkeychecking=no hadoop@hadoop2 "sleep 1s; exit;"
-echo "logout successfully"
-echo ""
-sleep 2s
-
-
-echo "ssh login to hadoop3"
-ssh -o stricthostkeychecking=no hadoop@hadoop3 "sleep 1s; exit;"
-echo "logout successfully"
-echo ""
-sleep 2s
-
-echo "ssh login to hadoop4"
-ssh -o stricthostkeychecking=no hadoop@hadoop4 "sleep 1s; exit;"
-echo "logout successfully"
-echo ""
+# ssh免交互登录，进入到远程主机后，休眠1秒，然后退出远程主机，返回本机
+serverArray=("hadoop1","hadoop2","hadoop3","hadoop4")
+# shellcheck disable=SC2068
+for node in ${serverArray[@]}; do
+    echo "ssh login to $node"
+    ssh -o stricthostkeychecking=no hadoop@$node "sleep 1s; exit;"
+    echo "logout successfully"
+    echo ""
+    sleep 1s
+done
 
 echo "ssh login has been completed"

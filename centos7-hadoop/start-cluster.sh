@@ -10,6 +10,7 @@ echo "YARN started done."
 
 # 启动ResourceManager
 rmArray=("hadoop3" "hadoop4")
+# shellcheck disable=SC2068
 for rnode in ${rmArray[@]}; do
     ssh -q hadoop@$rnode "$HADOOP_HOME/sbin/yarn-daemon.sh start resourcemanager"
     echo "$rnode resourcemanager start done."
