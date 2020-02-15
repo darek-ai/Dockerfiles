@@ -28,8 +28,12 @@ fi
 
 echo "正在启动Zookeeper..."
 /usr/local/zookeeper/bin/zkServer.sh start
+echo "Zookeeper启动成功."
+
+
 
 echo "完成一次与其它服务器的ssh访问"
-./entrypoint.sh
+./ssh-login.sh
+
 
 /bin/bash

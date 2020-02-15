@@ -139,16 +139,17 @@ COPY hive-conf/hive-site.xml    $HIVE_HOME/conf/hive-site.xml
 
 
 
-# 导入启动脚本
+# 该脚本负责启动sshd,zookeeper服务,entrypoint入口，容器启动完成后执行
 COPY --chown=hadoop:hadoop bootstrap.sh bootstrap.sh
-RUN sudo chmod +x /home/hadoop/bootstrap.sh
 
-# 该脚本与上面等效，只为学习docker-compose entrypoint
-COPY --chown=hadoop:hadoop entrypoint.sh entrypoint.sh
-RUN sudo chmod +x /home/hadoop/entrypoint.sh
+# 该脚本用于在所有机器间完成一次ssh免交互登录
+COPY --chown=hadoop:hadoop ssh-login.sh ssh-login.sh
 
-# 添加集群启动脚本
+# 该脚本负责启动hadoop集群
 COPY --chown=hadoop:hadoop start-cluster.sh start-cluster.sh
+
+RUN sudo chmod +x /home/hadoop/bootstrap.sh
+RUN sudo chmod +x /home/hadoop/sshlogin.sh
 RUN sudo chmod +x /home/hadoop/start-cluster.sh
 
 
