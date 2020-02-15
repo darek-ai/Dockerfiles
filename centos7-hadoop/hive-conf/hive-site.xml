@@ -3,21 +3,28 @@
 <configuration>
 
   <property>
+    <name>hive.metastore.local</name>
+    <value>false</value>
+    <description>非本地模式</description>
+  </property>
+
+  <property>
     <name>hive.metastore.warehouse.dir</name>
     <value>hdfs://hadoopcluster/hive/warehouse</value>
-    <description>hive数据存储目录,存储于hdfs</description>
+    <description>hive数据存储目录</description>
   </property>
   <property>
     <name>hive.exec.scratchdir</name>
     <value>hdfs://hadoopcluster/hive/tmp</value>
-    <description>hive临时目录,存储于hdfs</description>
+    <description>hive临时目录</description>
   </property>
   <property>
     <name>hive.querylog.location</name>
     <value>hdfs://hadoopcluster/hive/logs</value>
-    <description>hive日志文件目录,存储于hdfs</description>
+    <description>hive日志文件目录</description>
   </property>
-  <!-- 以上目录需要在hdfs上先创建好，并赋予当前用户读写权限-->
+  <!-- 以上文件目录需要在hdfs上先创建好，并赋予当前用户读写权限-->
+
 
   <!-- mysql连接配置 -->
   <property>
@@ -26,7 +33,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://mysql:3306/order?verifyServerCertificate=false&amp;useSSL=false&amp;requireSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</value>
+    <value>jdbc:mysql://mysql:3306/hive?createDatabaseIfNotExist&amp;verifyServerCertificate=false&amp;useSSL=false&amp;requireSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</value>
   </property>
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
@@ -35,6 +42,14 @@
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
     <value>hive123</value>
+  </property>
+
+
+
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hadoop3:1985,hadoop4:1985</value>
+    <description>访问hive元数据</description>
   </property>
 
 </configuration>
