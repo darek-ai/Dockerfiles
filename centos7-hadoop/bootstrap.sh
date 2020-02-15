@@ -26,11 +26,17 @@ if [ ! -f "$myidFile" ]; then
 fi
 
 
+echo "休眠15秒..."
+sleep 15s
+
 echo "正在启动Zookeeper..."
 /usr/local/zookeeper/bin/zkServer.sh start
 echo "Zookeeper启动成功."
 
 
+
+echo "休眠15秒..."
+sleep 15s
 
 echo "完成一次与其它服务器的ssh访问"
 ./ssh-login.sh
