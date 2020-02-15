@@ -32,6 +32,8 @@ services:
     volumes:          # 挂载数据卷
       - /Users/roy/Docker/hadoop_cluster/hadoop1:/home/hadoop/data
     entrypoint: /home/hadoop/bootstrap.sh # 启动脚本
+    depends_on:
+      - mysql
     privileged: true  # 允许容器中运行一些特权命令
     ulimits:
       nproc: 65535    # 容器能运行的最大进程数
