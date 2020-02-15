@@ -38,14 +38,8 @@ echo "Zookeeper启动成功."
 echo "休眠15秒..."
 sleep 15s
 
-echo "完成一次与其它服务器的ssh访问"
 ./ssh-login.sh
+echo "已通过ssh完成了一次与其它服务器的访问"
 
-echo "休眠15秒..."
-sleep 15s
-
-echo "启动Hadoop集群"
-./start-cluster.sh
-echo "Hadoop集群启动成功."
 
 /bin/bash
