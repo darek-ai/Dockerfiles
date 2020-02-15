@@ -149,7 +149,7 @@ COPY --chown=hadoop:hadoop ssh-login.sh ssh-login.sh
 COPY --chown=hadoop:hadoop start-cluster.sh start-cluster.sh
 
 RUN sudo chmod +x /home/hadoop/bootstrap.sh
-RUN sudo chmod +x /home/hadoop/sshlogin.sh
+RUN sudo chmod +x /home/hadoop/ssh-login.sh
 RUN sudo chmod +x /home/hadoop/start-cluster.sh
 
 
