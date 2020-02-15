@@ -79,7 +79,24 @@ RUN cd /usr/local/hbase/conf && ln -s /usr/local/hadoop/etc/hadoop/core-site.xml
 
 # 配置环境变量
 ENV HBASE_HOME=/usr/local/hbase
-ENV PATH=$HBASE_HOME/bin:$PATH
+ENV PATH=$PATH:$HBASE_HOME/bin
+
+
+# ===============================================================
+#
+# 安装配置hive
+#
+# ===============================================================
+ADD apache-hive-2.3.6-bin.tar.gz /usr/local/
+RUN chown -R hadoop:hadoop /usr/local/apache-hive-2.3.6-bin
+RUN cd /usr/local && ln -s ./apache-hive-2.3.6-bin hive
+
+# 环境变量
+ENV HIVE_HOME=/usr/local/hive
+ENV PATH=$PATH:$HIVE_HOME/bin
+
+# 复制mysql驱动包
+COPY mysql-connector-java-5.1.47.jar $HIVE_HOME/lib/
 
 
 
@@ -115,6 +132,11 @@ COPY hbase-conf/hbase-env.sh    $HBASE_HOME/conf/hbase-env.sh
 COPY hbase-conf/hbase-site.xml  $HBASE_HOME/conf/hbase-site.xml
 COPY hbase-conf/regionservers   $HBASE_HOME/conf/regionservers
 COPY hbase-conf/backup-masters  $HBASE_HOME/conf/backup-masters
+
+# 复制hive配置文件
+COPY hive-conf/hive-env.sh      $HIVE_HOME/conf/hive-env.sh
+COPY hive-conf/hive-site.xml    $HIVE_HOME/conf/hive-site.xml
+
 
 
 # 导入启动脚本

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>hdfs://hadoopcluster/hive/warehouse</value>
+    <description>hive数据存储目录,存储于hdfs</description>
+  </property>
+  <property>
+    <name>hive.exec.scratchdir</name>
+    <value>hdfs://hadoopcluster/hive/tmp</value>
+    <description>hive临时目录,存储于hdfs</description>
+  </property>
+  <property>
+    <name>hive.querylog.location</name>
+    <value>hdfs://hadoopcluster/hive/logs</value>
+    <description>hive日志文件目录,存储于hdfs</description>
+  </property>
+  <!-- 以上目录需要在hdfs上先创建好，并赋予当前用户读写权限-->
+
+  <!-- mysql连接配置 -->
+  <property>
+      <name>javax.jdo.option.ConnectionDriverName</name>
+       <value>com.mysql.jdbc.Driver</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://mysql:3306/order?verifyServerCertificate=false&amp;useSSL=false&amp;requireSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>root</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hive123</value>
+  </property>
+
+</configuration>
