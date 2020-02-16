@@ -160,7 +160,7 @@ services:
       hadoopnet:
         ipv4_address: 172.11.0.6
     environment:      # 环境变量
-      MYSQL_ROOT_PASSWORD: hive123
+      MYSQL_ROOT_PASSWORD: hive@123
       TZ: Asia/Shanghai
     volumes:          # 挂载数据卷
       - /Users/roy/Docker/mysql:/var/lib/mysql

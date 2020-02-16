@@ -41,15 +41,14 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
-    <value>hive123</value>
+    <value>hive@123</value>
   </property>
-
 
 
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://hadoop3:1985,hadoop4:1985</value>
-    <description>访问hive元数据</description>
+    <value>thrift://hadoop1:9083,hadoop2:9083</value>
+    <description>元数据所在节点，即hive的服务端,其余节点作为hive的客户端，要使用hive客户端必须要启动服务端metastore进程</description>
   </property>
 
 </configuration>
