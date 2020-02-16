@@ -1,5 +1,23 @@
 #!/usr/bin/env bash
 
+
+if [ "$1"x == "init"x ]; then
+
+   read -p "你确定要重新初始化吗？这将导致以前的初始化数据丢失！（yN）: " answer
+
+   if [ "$answer"x == "y"x ]; then
+      echo "开始初始化hadoop集群..."
+
+   else
+      echo "开始启动hadoop集群..."
+   fi
+
+else
+   echo "开始启动hadoop集群..."
+
+fi
+
+
 echo "启动hdfs"
 ssh -q hadoop@hadoop1 "$HADOOP_HOME/sbin/start-dfs.sh"
 echo "HDFS started done."
