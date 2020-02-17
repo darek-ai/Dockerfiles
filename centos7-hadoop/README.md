@@ -499,34 +499,35 @@ http://hadoop4:16010/   -->     http://localhost:16013/
 ![image](https://raw.githubusercontent.com/gifer/Dockerfiles/master/centos7-hadoop/docs-images/16013.png)
 
 
+<br/>
+<br/>
+<br/> 
 
 ## Hive 安装配置（补充）
-### 配置见dockerfile
 
+### 准备工作
+在mysql中创建hive要用的元数据库，库名与配置文件中保持一致，并创建独立用户，并授权远程机器访问.
 
-启动前在mysql中创建hive要用的元数据库,然后执行数据库初始化操作：
-```
-# hive 初始化数据库
-schematool -dbType mysql -initSchema
+### 【1】 安装配置
+安装参见Dockerfile，配置参见hive配置文件
 
-```
-
-### 运行hive
+### 【2】初始化元数据库
 ```
 cd /usr/local/hive/bin
-./hive
+
+schematool -dbType mysql -initSchema
 ```
 
-### 执行命令异常
-```
-hive> show tables;
-FAILED: SemanticException org.apache.hadoop.hive.ql.metadata.HiveException: java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
-
-```
-因为没有正常启动Hive 的 Metastore Server服务进程
-启动metastore
+### 【3】启动metastore服务进程
+在namenode节点启动
 ```
 ./hive --service metastore &
+```
+
+### 【4】运行hive客户端
+可在任意节点启动
+```
+./hive
 ```
 
 
