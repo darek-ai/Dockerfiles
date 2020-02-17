@@ -17,7 +17,7 @@ if [ "$1"x == "init"x ]; then
       done
 
       echo "格式化hdfs..."
-      ssh -q hadoop@hadoop1 "hadoop namenode -format"
+      ssh -q hadoop@hadoop1 "$HADOOP_HOME/bin/hadoop namenode -format"
 
       sleep 3
 
@@ -27,12 +27,12 @@ if [ "$1"x == "init"x ]; then
       sleep 3
 
       echo "同步namenode元数据..."
-      ssh -q hadoop@hadoop2 "hadoop namenode -bootstrapStandby"
+      ssh -q hadoop@hadoop2 "$HADOOP_HOME/bin/hadoop namenode -bootstrapStandby"
 
       sleep 3
 
       echo "初始化ZKFC..."
-      ssh -q hadoop@hadoop1 "hdfs zkfc -formatZK"
+      ssh -q hadoop@hadoop1 "$HADOOP_HOME/bin/hdfs zkfc -formatZK"
 
    fi
 fi
