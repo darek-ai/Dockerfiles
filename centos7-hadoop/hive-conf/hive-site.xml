@@ -37,7 +37,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
-    <value>root</value>
+    <value>hive</value>
   </property>
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
