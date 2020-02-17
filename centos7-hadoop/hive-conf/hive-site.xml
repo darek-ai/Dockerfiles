@@ -41,7 +41,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionPassword</name>
-    <value>hive@123</value>
+    <value>hive123</value>
   </property>
 
 
