@@ -506,28 +506,65 @@ http://hadoop4:16010/   -->     http://localhost:16013/
 ## Hive 安装配置（补充）
 
 ### 准备工作
-在mysql中创建hive要用的元数据库，库名与配置文件中保持一致，并创建独立用户，并授权远程机器访问.
+在mysql中创建hive要用的元数据库(字符集：latin1)，库名与配置文件中保持一致，并创建独立用户，并授权远程机器访问.
+
+
+先创建好hdfs文件目录
+```
+hadoop fs -mkdir /hive/warehouse
+hadoop fs -mkdir /hive/tmp
+hadoop fs -mkdir /hive/logs
+
+
+hadoop fs -chmod -R 777 /hive/warehouse
+hadoop fs -chmod -R 777 /hive/tmp
+hadoop fs -chmod -R 777 /hive/logs
+
+```
 
 ### 【1】 安装配置
 安装参见Dockerfile，配置参见hive配置文件
 
 ### 【2】初始化元数据库
+schematool -dbType mysql -initSchema
+
 ```
 cd /usr/local/hive/bin
 
-schematool -dbType mysql -initSchema
+[hadoop@a4fa28e7c5fd bin]$ schematool -dbType mysql -initSchema
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.3.6-bin/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.7.7/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+Metastore connection URL:	 jdbc:mysql://mysql:3306/hive?createDatabaseIfNotExist&verifyServerCertificate=false&useSSL=false&requireSSL=false&useUnicode=true&characterEncoding=UTF-8
+Metastore Connection Driver :	 com.mysql.jdbc.Driver
+Metastore connection User:	 hive
+Starting metastore schema initialization to 2.3.0
+Initialization script hive-schema-2.3.0.mysql.sql
+Initialization script completed
+schemaTool completed
+
 ```
 
-### 【3】启动metastore服务进程
+### 【3】启动metastore,hiveserver2服务
+metastore hive元数据管理组件，负责与mysql结构化数据库交互；
+hiveserver2 为API客户端（如JDBC和ODBC）提供支持，可通过编程语言操作hive
+
 在namenode节点启动
 ```
-./hive --service metastore &
+
+nohup hive --service metastore >> ../logs/metastore.log 2>&1 &
+
+nohup hive --service hiveserver2 >> ../logs/hiveserver2.log 2>&1 &
+
 ```
 
 ### 【4】运行hive客户端
 可在任意节点启动
 ```
 ./hive
+
 ```
 
 
