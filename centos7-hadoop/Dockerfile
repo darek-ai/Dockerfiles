@@ -4,7 +4,6 @@
 #
 #***************************************************************
 
-
 FROM centos7-jdk:1.0
 
 ARG RELEASE_VERSION="1.0"
@@ -17,14 +16,11 @@ MAINTAINER Roy dekota@126.com
 # 新建hadoop用户和用户组
 #
 # ===============================================================
-RUN groupadd hadoop
-RUN useradd -m hadoop -g hadoop
-RUN echo "hadoop:hadoop" | chpasswd
-
-# hadoop用户加入wheel用户组 sudo免密
-RUN usermod -aG wheel hadoop
-# 赋予hadoop用户sudo权限
-RUN echo "hadoop ALL= NOPASSWD: ALL" >> /etc/sudoers
+RUN groupadd hadoop && \
+    useradd -m hadoop -g hadoop && \
+    echo "hadoop:hadoop" | chpasswd && \
+    usermod -aG wheel hadoop && \
+    echo "hadoop ALL= NOPASSWD: ALL" >> /etc/sudoers
 
 
 # ===============================================================
@@ -33,9 +29,9 @@ RUN echo "hadoop ALL= NOPASSWD: ALL" >> /etc/sudoers
 #
 # ===============================================================
 ADD apache-zookeeper-3.5.6-bin.tar.gz /usr/local/
-RUN chown -R hadoop:hadoop /usr/local/apache-zookeeper-3.5.6-bin
-# 建立软连接
-RUN cd /usr/local/ && ln -s ./apache-zookeeper-3.5.6-bin zookeeper
+RUN chown -R hadoop:hadoop /usr/local/apache-zookeeper-3.5.6-bin && \
+    cd /usr/local/ && ln -s ./apache-zookeeper-3.5.6-bin zookeeper
+
 # 配置环境变量
 ENV ZOOKEEPER_HOME=/usr/local/zookeeper
 ENV PATH=$PATH:$ZOOKEEPER_HOME/bin
@@ -47,9 +43,9 @@ ENV PATH=$PATH:$ZOOKEEPER_HOME/bin
 #
 # ===============================================================
 ADD hadoop-2.7.7.tar.gz /usr/local/
-RUN chown -R hadoop:hadoop /usr/local/hadoop-2.7.7
-# 建立软连接
-RUN cd /usr/local && ln -s ./hadoop-2.7.7 hadoop
+RUN chown -R hadoop:hadoop /usr/local/hadoop-2.7.7 && \
+    cd /usr/local && ln -s ./hadoop-2.7.7 hadoop
+
 # 配置环境变量
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV HADOOP_MAPRED_HOME=$HADOOP_HOME
@@ -71,11 +67,11 @@ ENV PATH=$PATH:$HADOOP_HOME/sbin
 #
 # ===============================================================
 ADD hbase-1.4.12-bin.tar.gz /usr/local/
-RUN chown -R hadoop:hadoop /usr/local/hbase-1.4.12
-# 建立软连接
-RUN cd /usr/local && ln -s ./hbase-1.4.12 hbase
-# 将core-site.xml hdfs-site.xml两文件连接到hadoop的配置文件，否则hbase集群启动可能找不到nameservice
-RUN cd /usr/local/hbase/conf && ln -s /usr/local/hadoop/etc/hadoop/core-site.xml core-site.xml && ln -s /usr/local/hadoop/etc/hadoop/hdfs-site.xml hdfs-site.xml
+RUN chown -R hadoop:hadoop /usr/local/hbase-1.4.12 && \
+    cd /usr/local && ln -s ./hbase-1.4.12 hbase && \
+    cd /usr/local/hbase/conf && \
+    ln -s /usr/local/hadoop/etc/hadoop/core-site.xml core-site.xml && \
+    ln -s /usr/local/hadoop/etc/hadoop/hdfs-site.xml hdfs-site.xml
 
 # 配置环境变量
 ENV HBASE_HOME=/usr/local/hbase
@@ -88,8 +84,8 @@ ENV PATH=$PATH:$HBASE_HOME/bin
 #
 # ===============================================================
 ADD apache-hive-2.3.6-bin.tar.gz /usr/local/
-RUN chown -R hadoop:hadoop /usr/local/apache-hive-2.3.6-bin
-RUN cd /usr/local && ln -s ./apache-hive-2.3.6-bin hive
+RUN chown -R hadoop:hadoop /usr/local/apache-hive-2.3.6-bin && \
+    cd /usr/local && ln -s ./apache-hive-2.3.6-bin hive
 
 # 环境变量
 ENV HIVE_HOME=/usr/local/hive
@@ -100,20 +96,11 @@ COPY mysql-connector-java-5.1.47.jar $HIVE_HOME/lib/
 
 
 
-
-USER hadoop
-
-# 在hadoop用户下创建ssh密钥
-RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-
-
-# 切换工作目录
-WORKDIR /home/hadoop
-# 创建目录
-RUN mkdir -p /home/hadoop/data
-
-
+# ===============================================================
+#
+# 复制配置文件
+#
+# ===============================================================
 # 复制zookeeper配置文件
 COPY zookeeper-conf/zoo.cfg         $ZOOKEEPER_HOME/conf/zoo.cfg
 
@@ -139,18 +126,29 @@ COPY hive-conf/hive-site.xml    $HIVE_HOME/conf/hive-site.xml
 
 
 
+# 切换工作目录
+WORKDIR /home/hadoop
+# 切换用户
+USER hadoop
+
+# 在hadoop用户下创建ssh密钥
+RUN ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa && \
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+
 # 该脚本负责启动sshd,zookeeper服务,entrypoint入口，容器启动完成后执行
 COPY --chown=hadoop:hadoop bootstrap.sh bootstrap.sh
-
 # 该脚本用于在所有机器间完成一次ssh免交互登录
 COPY --chown=hadoop:hadoop ssh-login.sh ssh-login.sh
-
 # 该脚本负责启动hadoop集群
 COPY --chown=hadoop:hadoop start-cluster.sh start-cluster.sh
 
-RUN sudo chmod +x /home/hadoop/bootstrap.sh
-RUN sudo chmod +x /home/hadoop/ssh-login.sh
-RUN sudo chmod +x /home/hadoop/start-cluster.sh
+
+# 创建目录
+RUN mkdir -p /home/hadoop/data && mkdir -p /home/hadoop/logs/hive && \
+    sudo chmod +x /home/hadoop/bootstrap.sh && \
+    sudo chmod +x /home/hadoop/ssh-login.sh && \
+    sudo chmod +x /home/hadoop/start-cluster.sh
 
 
 # 健康检查
