@@ -554,9 +554,9 @@ hiveserver2 为API客户端（如JDBC和ODBC）提供支持，可通过编程语
 在namenode节点启动
 ```
 
-nohup hive --service metastore >> ../logs/metastore.log 2>&1 &
+hive --service metastore &
 
-nohup hive --service hiveserver2 >> ../logs/hiveserver2.log 2>&1 &
+hive --service hiveserver2 &
 
 ```
 
@@ -566,7 +566,4 @@ nohup hive --service hiveserver2 >> ../logs/hiveserver2.log 2>&1 &
 ./hive
 
 ```
-
-
-
 
