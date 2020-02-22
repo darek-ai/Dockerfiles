@@ -142,13 +142,15 @@ COPY --chown=hadoop:hadoop bootstrap.sh bootstrap.sh
 COPY --chown=hadoop:hadoop ssh-login.sh ssh-login.sh
 # 该脚本负责启动hadoop集群
 COPY --chown=hadoop:hadoop start-cluster.sh start-cluster.sh
+COPY --chown=hadoop:hadoop start-hive.sh start-hive.sh
 
 
 # 创建目录
 RUN mkdir -p /home/hadoop/data && mkdir -p /home/hadoop/logs/hive && \
     sudo chmod +x /home/hadoop/bootstrap.sh && \
     sudo chmod +x /home/hadoop/ssh-login.sh && \
-    sudo chmod +x /home/hadoop/start-cluster.sh
+    sudo chmod +x /home/hadoop/start-cluster.sh && \
+    sudo chmod +x /home/hadoop/start-hive.sh
 
 
 # 健康检查
