@@ -7,6 +7,13 @@
     <value>false</value>
     <description>非本地模式</description>
   </property>
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hadoop1:9083,hadoop2:9083</value>
+    <description>元数据所在节点，即hive的服务端,其余节点作为hive的客户端，要使用hive客户端必须要启动服务端metastore进程</description>
+  </property>
+
+
 
   <property>
     <name>hive.metastore.warehouse.dir</name>
@@ -23,7 +30,7 @@
     <value>hdfs://hadoopcluster/hive/logs</value>
     <description>hive日志文件目录</description>
   </property>
-  <!-- 以上文件目录需要在hdfs上先创建好，并赋予当前用户读写权限-->
+  <!-- 以上文件目录需要在hdfs上先创建好，并赋予读写权限-->
 
 
   <!-- mysql连接配置 -->
@@ -45,10 +52,31 @@
   </property>
 
 
+  <!-- hiveserver2 -->
   <property>
-    <name>hive.metastore.uris</name>
-    <value>thrift://hadoop1:9083,hadoop2:9083</value>
-    <description>元数据所在节点，即hive的服务端,其余节点作为hive的客户端，要使用hive客户端必须要启动服务端metastore进程</description>
+    <name>hive.server2.thrift.port</name>
+    <value>10000</value>
+  </property>
+  <property>
+    <name>hive.server2.thrift.bind.host</name>
+    <value>localhost</value>
+  </property>
+  <property>
+    <name>hive.server2.webui.port</name>
+    <value>10002</value>
+    <description>The port the HiveServer2 WebUI will listen on. This can beset to 0 or a negative integer to disable the web UI</description>
+  </property>
+
+  <!-- 注：没有配置hive.zookeeper.quorum会导致无法并发执行hive ql请求和导致数据异常 -->
+  <property>
+    <name>hive.support.concurrency</name>
+    <value>true</value>
+    <description>Enable Hive's Table Lock Manager Service</description>
+  </property>
+  <property>
+    <name>hive.zookeeper.quorum</name>
+    <value>hadoop1:2181,hadoop2:2181,hadoop3:2181</value>
+    <description>Zookeeper quorum used by Hive's Table Lock Manager</description>
   </property>
 
 </configuration>
