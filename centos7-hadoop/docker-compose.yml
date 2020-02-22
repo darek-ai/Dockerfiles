@@ -19,7 +19,7 @@ services:
       - "19888:19888" # mapreduce history job
       - "2181:2181"   # zookeeper
       - "10000:10000" # hiveserver2
-      - "10000:10002" # hiveserver2 webui
+      - "10002:10002" # hiveserver2 webui
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "hadoop1:172.11.0.2"
       - "hadoop2:172.11.0.3"
@@ -54,8 +54,8 @@ services:
       - "16011:16010" # hbase web ui
       - "19887:19888" # mapreduce history job
       - "2182:2182"   # zookeeper
-      - "10000:10001" # hiveserver2
-      - "10000:10003" # hiveserver2 webui
+      - "10001:10000" # hiveserver2
+      - "10003:10002" # hiveserver2 webui
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "hadoop1:172.11.0.2"
       - "hadoop2:172.11.0.3"
