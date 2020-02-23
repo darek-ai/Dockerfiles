@@ -25,13 +25,13 @@ if [ "$1"x == "init"x ]; then
 fi
 
 
-echo "--------------- 启动Hive metestore元数据服务 -----------------"
-echo "hadoop1节点启动: hive --service metastore &"
-ssh -q hadoop@hadoop1 "$HIVE_HOME/bin/hive --service metastore &"
+#echo "--------------- 启动Hive metestore元数据服务 -----------------"
+#echo "hadoop1节点启动: hive --service metastore &"
+#ssh -q hadoop@hadoop1 "$HIVE_HOME/bin/hive --service metastore &"
 
-echo "hadoop2节点启动: hive --service metastore &"
-ssh -q hadoop@hadoop2 "$HIVE_HOME/bin/hive --service metastore &"
-echo ""
+#echo "hadoop2节点启动: hive --service metastore &"
+#ssh -q hadoop@hadoop2 "$HIVE_HOME/bin/hive --service metastore &"
+#echo ""
 
 
 #echo "--------------- 启动Hive hiveserver2服务 -----------------"
@@ -41,5 +41,5 @@ echo ""
 #ssh -q hadoop@hadoop2 "$HIVE_HOME/bin/hive --service hiveserver2 &"
 #echo ""
 
-echo "--------------- 启动Hive服务启动完成 -----------------"
+#echo "--------------- 启动Hive服务启动完成 -----------------"
 
