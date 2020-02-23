@@ -123,6 +123,8 @@ COPY hbase-conf/backup-masters  $HBASE_HOME/conf/backup-masters
 # 复制hive配置文件
 COPY hive-conf/hive-env.sh      $HIVE_HOME/conf/hive-env.sh
 COPY hive-conf/hive-site.xml    $HIVE_HOME/conf/hive-site.xml
+COPY hive-conf/hive-log4j2.properties $HIVE_HOME/conf/hive-log4j2.properties
+COPY hive-conf/hive-exec-log4j2.properties $HIVE_HOME/conf/hive-exec-log4j2.properties
 
 
 
