@@ -26,19 +26,19 @@ fi
 
 
 #echo "--------------- 启动Hive metestore元数据服务 -----------------"
-#echo "hadoop1节点启动: hive --service metastore &"
-#ssh -q hadoop@hadoop1 "$HIVE_HOME/bin/hive --service metastore &"
+#echo "hadoop1节点启动: nohup hive --service metastore &"
+#ssh -q hadoop@hadoop1 "nohup $HIVE_HOME/bin/hive --service metastore &"
 
-#echo "hadoop2节点启动: hive --service metastore &"
-#ssh -q hadoop@hadoop2 "$HIVE_HOME/bin/hive --service metastore &"
+#echo "hadoop2节点启动: nohup hive --service metastore &"
+#ssh -q hadoop@hadoop2 "nohup $HIVE_HOME/bin/hive --service metastore &"
 #echo ""
 
 
 #echo "--------------- 启动Hive hiveserver2服务 -----------------"
-#echo "hadoop1节点启动: hive --service hiveserver2 &"
-#ssh -q hadoop@hadoop1 "$HIVE_HOME/bin/hive --service hiveserver2 &"
-#echo "hadoop2节点启动: hive --service hiveserver2 &"
-#ssh -q hadoop@hadoop2 "$HIVE_HOME/bin/hive --service hiveserver2 &"
+#echo "hadoop1节点启动: nohup hive --service hiveserver2 &"
+#ssh -q hadoop@hadoop1 "nohup $HIVE_HOME/bin/hive --service hiveserver2 &"
+#echo "hadoop2节点启动: nohup hive --service hiveserver2 &"
+#ssh -q hadoop@hadoop2 "nohup $HIVE_HOME/bin/hive --service hiveserver2 &"
 #echo ""
 
 #echo "--------------- 启动Hive服务启动完成 -----------------"
