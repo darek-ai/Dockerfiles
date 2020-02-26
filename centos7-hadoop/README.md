@@ -548,22 +548,22 @@ schemaTool completed
 ```
 
 ### 【3】启动metastore,hiveserver2服务
-metastore hive元数据管理组件，负责与mysql结构化数据库交互；
+metastore hive元数据管理组件，负责与mysql数据库交互；
 hiveserver2 为API客户端（如JDBC和ODBC）提供支持，可通过编程语言操作hive
 
-在namenode节点启动
+根据规划配置，在节点hadoop3,hadoop4节点分别启动metastore元数据服务和hiveserver2
 ```
 
-hive --service metastore &
+nohup hive --service metastore >/dev/null 2>&1 &
 
-hive --service hiveserver2 &
+nohup hive --service hiveserver2 >/dev/null 2>&1 &
 
 ```
 
 ### 【4】运行hive客户端
 可在任意节点启动
 ```
-./hive
+hive
 
 ```
 

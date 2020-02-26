@@ -25,21 +25,24 @@ if [ "$1"x == "init"x ]; then
 fi
 
 
-#echo "--------------- 启动Hive metestore元数据服务 -----------------"
-#echo "hadoop1节点启动: nohup hive --service metastore &"
-#ssh -q hadoop@hadoop1 "nohup $HIVE_HOME/bin/hive --service metastore &"
+echo "--------------- 启动Hive metastore元数据服务 -----------------"
+echo "hadoop3节点启动metastore..."
+ssh -q hadoop@hadoop3 "nohup $HIVE_HOME/bin/hive --service metastore >/dev/null 2>&1 &"
+echo ""
 
-#echo "hadoop2节点启动: nohup hive --service metastore &"
-#ssh -q hadoop@hadoop2 "nohup $HIVE_HOME/bin/hive --service metastore &"
-#echo ""
+echo "hadoop4节点启动metastore..."
+ssh -q hadoop@hadoop4 "nohup $HIVE_HOME/bin/hive --service metastore >/dev/null 2>&1 &"
+echo ""
 
 
 #echo "--------------- 启动Hive hiveserver2服务 -----------------"
-#echo "hadoop1节点启动: nohup hive --service hiveserver2 &"
-#ssh -q hadoop@hadoop1 "nohup $HIVE_HOME/bin/hive --service hiveserver2 &"
-#echo "hadoop2节点启动: nohup hive --service hiveserver2 &"
-#ssh -q hadoop@hadoop2 "nohup $HIVE_HOME/bin/hive --service hiveserver2 &"
+#echo "hadoop3节点启动hiveserver2..."
+#ssh -q hadoop@hadoop3 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
 #echo ""
 
-#echo "--------------- 启动Hive服务启动完成 -----------------"
+#echo "hadoop4节点启动hiveserver2..."
+#ssh -q hadoop@hadoop4 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
+#echo ""
+
+echo "--------------- 启动Hive服务启动完成 -----------------"
 
