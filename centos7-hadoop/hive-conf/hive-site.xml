@@ -4,30 +4,27 @@
 
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://hadoop1:9083,hadoop2:9083</value>
-    <description>元数据所在节点，即hive的服务端,其余节点作为hive的客户端，要使用hive客户端必须要启动服务端metastore进程</description>
+    <value>thrift://hadoop3:9083,hadoop4:9083</value>
   </property>
 
 
   <property>
     <name>hive.metastore.warehouse.dir</name>
     <value>hdfs://hadoopcluster/hive/warehouse</value>
-    <description>hive数据存储目录</description>
+    <description>hive data dir</description>
   </property>
   <property>
     <name>hive.exec.scratchdir</name>
     <value>hdfs://hadoopcluster/hive/tmp</value>
-    <description>hive临时目录</description>
+    <description>hive tmp data</description>
   </property>
   <property>
     <name>hive.querylog.location</name>
     <value>hdfs://hadoopcluster/hive/logs</value>
-    <description>hive日志文件目录</description>
   </property>
-  <!-- 以上文件目录需要在hdfs上先创建好，并赋予读写权限-->
 
 
-  <!-- mysql连接配置 -->
+  <!-- mysql conn config -->
   <property>
       <name>javax.jdo.option.ConnectionDriverName</name>
        <value>com.mysql.jdbc.Driver</value>
