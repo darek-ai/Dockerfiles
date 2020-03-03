@@ -55,6 +55,19 @@ cp mysql-connector-java-5.1.47.jar /usr/share/java/mysql-connector-java.jar
 
 ### 3.1.2 创建数据库、用户并授权
 
+**服务名** | 数据库 | 用户
+-----------------| -------------- |------------
+Cloudera Manager Server | scm   | scm
+Activity Monitor |	amon | amon
+Reports Manager	| rman | rman
+Hue		| hue | hue
+Hive Metastore Server | metastore | hive
+Sentry Server | sentry | sentry
+Cloudera Navigator Audit Server	| nav | nav
+Cloudera Navigator Metadata Server | navms | nav
+Oozie	| oozie | oozie
+
+
 ```
 -- 注意scm的数据库不需要创建，在CDH 数据库初始化时会自动创建
 create database scm default character set utf8 default collate utf8_general_ci;
