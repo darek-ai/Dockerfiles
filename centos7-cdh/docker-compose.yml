@@ -49,6 +49,7 @@ services:
       - "10000:10000" # hiveserver2
       - "10001:10002" # hiveserver2 webui
       - "7180:7180"   # cloudera manager
+      - "80:80"       # httpd
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "a.cdh.com:172.21.0.2"
       - "b.cdh.com:172.21.0.3"
@@ -62,6 +63,7 @@ services:
     volumes:
       - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
       - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
+      - /Users/roy/Downloads/cdh:/var/www/html/cdh
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -94,9 +96,6 @@ services:
     networks:
       cdhnet:
         ipv4_address: 172.21.0.3
-    volumes:
-      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
-      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -129,9 +128,6 @@ services:
     networks:
       cdhnet:
         ipv4_address: 172.21.0.4
-    volumes:
-      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
-      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -165,9 +161,6 @@ services:
     networks:
       cdhnet:
         ipv4_address: 172.21.0.5
-    volumes:
-      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
-      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
