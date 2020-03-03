@@ -1,0 +1,180 @@
+version: "3.7"
+
+# 为集群创建独立的网络
+networks:
+  cdhnet: # 自定义网络名称
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+services:
+  mysql.cdh.com:
+    image: mysql:5.7
+    container_name: mysql.cdh.com
+    ports:
+      - "3306:3306"
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "a.cdh.com:172.21.0.2"
+      - "b.cdh.com:172.21.0.3"
+      - "c.cdh.com:172.21.0.4"
+      - "d.cdh.com:172.21.0.5"
+      - "e.cdh.com:172.21.0.6"
+      - "mysql.cdh.com:172.21.0.10"
+    networks:
+      cdhnet:
+        ipv4_address: 172.21.0.10
+    environment:
+      MYSQL_ROOT_PASSWORD: cdh123
+      TZ: Asia/Shanghai
+    volumes:
+      - /Users/roy/Docker/cdh/mysql/data:/var/lib/mysql
+      - /Users/roy/Docker/cdh/mysql/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  a.cdh.com:
+    image: centos7-cdh:1.0
+    container_name: a.cdh.com
+    ports:            # 暴露端口
+      - "50070:50070" # hadoop web ui
+      - "16010:16010" # hbase web ui
+      - "8088:8088"   # yarn web ui
+      - "19888:19888" # mapreduce history job
+      - "10000:10000" # hiveserver2
+      - "10001:10002" # hiveserver2 webui
+      - "7180:7180"   # cloudera manager
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "a.cdh.com:172.21.0.2"
+      - "b.cdh.com:172.21.0.3"
+      - "c.cdh.com:172.21.0.4"
+      - "d.cdh.com:172.21.0.5"
+      - "e.cdh.com:172.21.0.6"
+      - "mysql.cdh.com:172.21.0.10"
+    networks:
+      cdhnet:
+        ipv4_address: 172.21.0.2
+    volumes:
+      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
+      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
+    depends_on:
+      - mysql.cdh.com
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  b.cdh.com:
+    image: centos7-cdh:1.0
+    container_name: b.cdh.com
+    ports:            # 暴露端口
+      - "50071:50070" # hadoop web ui
+      - "16011:16010" # hbase web ui
+      - "8087:8088"   # yarn web ui
+      - "19887:19888" # mapreduce history job
+      - "10002:10000" # hiveserver2
+      - "10003:10002" # hiveserver2 webui
+      - "7181:7180"   # cloudera manager
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "a.cdh.com:172.21.0.2"
+      - "b.cdh.com:172.21.0.3"
+      - "c.cdh.com:172.21.0.4"
+      - "d.cdh.com:172.21.0.5"
+      - "e.cdh.com:172.21.0.6"
+      - "mysql.cdh.com:172.21.0.10"
+    networks:
+      cdhnet:
+        ipv4_address: 172.21.0.3
+    volumes:
+      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
+      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
+    depends_on:
+      - mysql.cdh.com
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+  c.cdh.com:
+    image: centos7-cdh:1.0
+    container_name: c.cdh.com
+    ports:            # 暴露端口
+      - "50072:50070" # hadoop web ui
+      - "16012:16010" # hbase web ui
+      - "8086:8088"   # yarn web ui
+      - "19886:19888" # mapreduce history job
+      - "10004:10000" # hiveserver2
+      - "10005:10002" # hiveserver2 webui
+      - "7182:7180"   # cloudera manager
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "a.cdh.com:172.21.0.2"
+      - "b.cdh.com:172.21.0.3"
+      - "c.cdh.com:172.21.0.4"
+      - "d.cdh.com:172.21.0.5"
+      - "e.cdh.com:172.21.0.6"
+      - "mysql.cdh.com:172.21.0.10"
+    networks:
+      cdhnet:
+        ipv4_address: 172.21.0.4
+    volumes:
+      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
+      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
+    depends_on:
+      - mysql.cdh.com
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
+
+
+  d.cdh.com:
+    image: centos7-cdh:1.0
+    container_name: d.cdh.com
+    ports:            # 暴露端口
+      - "50073:50070" # hadoop web ui
+      - "16013:16010" # hbase web ui
+      - "8085:8088"   # yarn web ui
+      - "19885:19888" # mapreduce history job
+      - "10006:10000" # hiveserver2
+      - "10007:10002" # hiveserver2 webui
+      - "7183:7180"   # cloudera manager
+    extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
+      - "a.cdh.com:172.21.0.2"
+      - "b.cdh.com:172.21.0.3"
+      - "c.cdh.com:172.21.0.4"
+      - "d.cdh.com:172.21.0.5"
+      - "e.cdh.com:172.21.0.6"
+      - "mysql.cdh.com:172.21.0.10"
+    networks:
+      cdhnet:
+        ipv4_address: 172.21.0.5
+    volumes:
+      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
+      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
+    depends_on:
+      - mysql.cdh.com
+    privileged: true  # 允许容器中运行一些特权命令
+    ulimits:
+      nproc: 65535    # 容器能运行的最大进程数
+      nofile:
+        soft: 20000   # 能打开的文件句柄数（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
+    stdin_open: true  # 对应docker run -i
+    tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
