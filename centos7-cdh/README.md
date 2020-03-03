@@ -61,7 +61,7 @@ Cloudera Manager Server | scm   | scm
 Activity Monitor |	amon | amon
 Reports Manager	| rman | rman
 Hue		| hue | hue
-Hive Metastore Server | metastore | hive
+Hive Metastore Server | hive | hive
 Sentry Server | sentry | sentry
 Cloudera Navigator Audit Server	| nav | nav
 Cloudera Navigator Metadata Server | navms | nav
