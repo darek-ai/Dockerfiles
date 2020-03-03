@@ -245,11 +245,57 @@ Exiting on user cancel
 我的机器已有JDK环境，不再需要安装
 
 ### 3.2.3 启动Cloudera-Manager
+systemctl start cloudera-scm-server 或者  /etc/init.d/cloudera-scm-server start
+
 ```shell script
-/etc/init.d/cloudera-scm-server start
-#或者
-systemctl start cloudera-scm-server
+
+[root@b33dddbc5640 cloudera-manager]# systemctl start cloudera-scm-server
+Job for cloudera-scm-server.service failed because the control process exited with error code. See "systemctl status cloudera-scm-server.service" and "journalctl -xe" for details.
 ```
+启动错误
+```
+[root@b33dddbc5640 cloudera-manager]# systemctl status cloudera-scm-server.service
+● cloudera-scm-server.service - LSB: Cloudera SCM Server
+   Loaded: loaded (/etc/rc.d/init.d/cloudera-scm-server; bad; vendor preset: disabled)
+   Active: failed (Result: exit-code) since Tue 2020-03-03 17:13:01 CST; 22s ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 2375 ExecStart=/etc/rc.d/init.d/cloudera-scm-server start (code=exited, status=1/FAILURE)
+
+Mar 03 17:12:56 b33dddbc5640 systemd[1]: Starting LSB: Cloudera SCM Server...
+Mar 03 17:12:56 b33dddbc5640 su[2404]: (to cloudera-scm) root on none
+Mar 03 17:13:01 b33dddbc5640 cloudera-scm-server[2375]: Starting cloudera-scm-server: [FAILED]
+Mar 03 17:13:01 b33dddbc5640 systemd[1]: cloudera-scm-server.service: control process exited, code=exited status=1
+Mar 03 17:13:01 b33dddbc5640 systemd[1]: Failed to start LSB: Cloudera SCM Server.
+Mar 03 17:13:01 b33dddbc5640 systemd[1]: Unit cloudera-scm-server.service entered failed state.
+Mar 03 17:13:01 b33dddbc5640 systemd[1]: cloudera-scm-server.service failed.
+
+```
+cm-server日志文件显示
+```shell script
+[root@b33dddbc5640 cloudera-manager]# cat /var/log/cloudera-scm-server/cloudera-scm-server.out
++======================================================================+
+|      Error: JAVA_HOME is not set and Java could not be found         |
++----------------------------------------------------------------------+
+| Please download the latest Oracle JDK from the Oracle Java web site  |
+|  > http://www.oracle.com/technetwork/java/javase/index.html <        |
+|                                                                      |
+| Cloudera Manager requires Java 1.6 or later.                         |
+| NOTE: This script will find Oracle Java whether you install using    |
+|       the binary or the RPM based installer.                         |
++======================================================================+
+```
+检查机器Java环境正常，百思不得其解，问题原因是啥?
+```shell script
+[root@b33dddbc5640 cloudera-manager]# echo $JAVA_HOME
+/usr/local/jdk1.8.0_202
+
+[root@b33dddbc5640 cloudera-manager]# java -version
+java version "1.8.0_202"
+Java(TM) SE Runtime Environment (build 1.8.0_202-b08)
+Java HotSpot(TM) 64-Bit Server VM (build 25.202-b08, mixed mode)
+```
+
+
 查看7180端口处于监听状态
 ```shell script
 [root@4fe527430f25 init.d]# netstat -ntl | grep 7180
