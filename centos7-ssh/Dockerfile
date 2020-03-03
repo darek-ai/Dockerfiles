@@ -37,6 +37,7 @@ RUN cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 # 每隔10秒检查一次，检查超时间2秒，超时被认为检查失败，重试3次如果都检查失败，容器被认为不健康unhealthy
 HEALTHCHECK --interval=10s --timeout=2s --retries=3 CMD ["/usr/sbin/sshd"]
 
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+# ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+CMD ["/usr/sbin/init"]
 
 
