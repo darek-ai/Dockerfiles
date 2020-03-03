@@ -294,14 +294,35 @@ java version "1.8.0_202"
 Java(TM) SE Runtime Environment (build 1.8.0_202-b08)
 Java HotSpot(TM) 64-Bit Server VM (build 25.202-b08, mixed mode)
 ```
+试图查找cloudera-scm-server启动脚本
+```shell script
+[root@b33dddbc5640 cloudera-scm-server]# find / -name 'cloudera-scm-server'
+/etc/default/cloudera-scm-server
+/etc/rc.d/init.d/cloudera-scm-server
+/etc/cloudera-scm-server
+/run/cloudera-scm-server
+/var/log/cloudera-scm-server
+/var/lib/cloudera-scm-server
+```
+在cloudera-scm-server启动脚本文件开头添加Java环境变量
 
+vi /etc/rc.d/init.d/cloudera-scm-server
+```shell script
+export JAVA_HOME=/usr/local/jdk1.8.0_202
+```
+重新启动cloudera-scm-server成功,多出一个Main进程
+```shell script
+[root@b33dddbc5640 cloudera-scm-server]# jps
+674 Main
+1467 Jps
+```
 
 查看7180端口处于监听状态
 ```shell script
 [root@4fe527430f25 init.d]# netstat -ntl | grep 7180
 tcp        0      0 0.0.0.0:7180            0.0.0.0:*               LISTEN
 ```
-在浏览器访问：http://a.cdh.com:7180/
+在浏览器访问：http://a.cdh.com:7180/         终于看到了曙光^_^
 
 默认用户名和密码均为：admin
 
