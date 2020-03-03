@@ -9,10 +9,9 @@ cdh2.com | 192.21.0.3 | centos7.7
 cdh3.com | 192.21.0.4 | centos7.7
 cdh4.com | 192.21.0.5 | centos7.7
 
-# 2.下载
-## Cloudera Manager安装文件下载
-[http://archive.cloudera.com/cm5/installer/5.16.2/cloudera-manager-installer.bin](http://archive.cloudera.com/cm5/installer/5.16.2/cloudera-manager-installer.bin)
 
+
+# 2.下载
 
 ## 2.1 CM软件包下载
 [http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/RPMS/x86_64/](http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/RPMS/x86_64/)
@@ -34,6 +33,9 @@ el6 对应centos6
 
 
 其它rpm包及bin文件存放目录不限
+
+## 2.4 安装配置httpd
+将下载的rmp包等文件，复制到/var/www/html/目录下，供下载，目录结构：
 
 
 # 3. 安装
