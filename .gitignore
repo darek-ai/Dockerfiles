@@ -2,7 +2,9 @@
 .idea/
 *.iml
 
+# 忽略各类安装包文件
 *.tar.gz
-
 *.jar
+*.rpm
+*.tar
 

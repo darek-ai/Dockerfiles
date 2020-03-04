@@ -62,6 +62,7 @@ services:
         ipv4_address: 172.21.0.2
     volumes:
       - /Users/roy/Downloads/soft/cloudera-repos:/var/www/html/cloudera-repos
+      - /Users/roy/Downloads/soft/cloudera-repos/cdh6.2.1:/opt/cloudera/parcel-repo
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -136,7 +137,6 @@ services:
         hard: 40000   # 硬限制（系统硬限制，只能root 用户提高）
     stdin_open: true  # 对应docker run -i
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
-
 
   d.cdh.com:
     image: centos7-cdh:1.0
