@@ -15,7 +15,7 @@ RUN echo $TIME_ZONE > /etc/timezone \
 && ln -sf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime
 
 # libaio numactl perl为mysql-community-server依赖
-RUN yum install -y net-tools which wget sudo less ntp libaio numactl perl && yum clean all
+RUN yum install -y net-tools which less ntp libaio numactl perl && yum clean all
 
 # 复制并解压tar包文件到镜像指定目录
 ADD repos/mysql-5.7.29-1.el7.x86_64.rpm-bundle.tar /root/
@@ -49,4 +49,4 @@ EXPOSE 3306
 # 健康检查
 HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD ["/usr/sbin/init"]
 
-ENTRYPOINT ["setup.sh"]
+ENTRYPOINT ["/root/setup.sh"]

@@ -14,7 +14,7 @@ systemctl status mysqld
 echo ''
 
 echo '【4】Setting Password....'
-mysql < /setpassword.sql
+mysql < /root/setpassword.sql
 echo ''
 
 echo '【5】MYSQL Installed Successfully.'
