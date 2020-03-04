@@ -5,3 +5,21 @@
 下载地址：
 [https://dev.mysql.com/downloads/mysql/5.7.html#downloads](https://dev.mysql.com/downloads/mysql/5.7.html#downloads)
 ![](img/01.png)
+
+# 2.安装异常
+镜像打包时，出现以下错误，提示缺少依赖包:
+```shell script
+warning: mysql-community-server-5.7.29-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+error: Failed dependencies:
+        /usr/bin/perl is needed by mysql-community-server-5.7.29-1.el7.x86_64
+        libnuma.so.1()(64bit) is needed by mysql-community-server-5.7.29-1.el7.x86_64
+        libnuma.so.1(libnuma_1.1)(64bit) is needed by mysql-community-server-5.7.29-1.el7.x86_64
+        libnuma.so.1(libnuma_1.2)(64bit) is needed by mysql-community-server-5.7.29-1.el7.x86_64
+        perl(Getopt::Long) is needed by mysql-community-server-5.7.29-1.el7.x86_64
+        perl(strict) is needed by mysql-community-server-5.7.29-1.el7.x86_64
+
+```
+安装所需依赖
+```shell script
+yum install -y libaio numactl perl
+```
