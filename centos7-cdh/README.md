@@ -64,7 +64,6 @@ cloudera-repos
 在cm6.2.1目录下生成rpm源数据
 ```shell script
 createrepo .
-chmod 777 -R cloudera-repos
 ```
 
 
@@ -241,10 +240,10 @@ oracle-j2sdk1.7.x86_64                    1.7.0+update67-1               clouder
 ```shell script
 
 # 安装openjdk8
-yum install oracle-j2sdk1.8
+yum install -y oracle-j2sdk1.8
 
 # 安装cm manager(只需在cm server节点安装)
-yum install cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
+yum install -y cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
 
 ```
 ### 3.2.3 配置本地Parcel存储库
