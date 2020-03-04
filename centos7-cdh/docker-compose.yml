@@ -61,9 +61,7 @@ services:
       cdhnet:
         ipv4_address: 172.21.0.2
     volumes:
-      - /Users/roy/Downloads/cdh/cm:/opt/cloudera-manager
-      - /Users/roy/Downloads/cdh/parcel:/opt/cloudera/parcel-repo
-      - /Users/roy/Downloads/cdh:/var/www/html/cdh
+      - /Users/roy/Downloads/soft/cloudera-repos:/var/www/html/cloudera-repos
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令

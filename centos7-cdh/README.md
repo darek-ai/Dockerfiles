@@ -1,41 +1,71 @@
-# Cloudera Manager 5.16.2 centos7离线安装
+# Cloudera Manager 6.2.1 Centos7离线安装
 
 # 1.服务器节点规划
 
-机器名 | ip地址 | 操作系统 |
--------------| -------------- | -------------
-cdh1.com | 192.21.0.2 | centos7.7
-cdh2.com | 192.21.0.3 | centos7.7
-cdh3.com | 192.21.0.4 | centos7.7
-cdh4.com | 192.21.0.5 | centos7.7
-
+机器名 | ip地址 | 操作系统 | 备注 |
+-------------| -------------- | -------------|-------------
+a.cdh.com | 192.21.0.2 | centos7.7 | cloudera manager master
+b.cdh.com | 192.21.0.3 | centos7.7 | &nbsp;
+c.cdh.com | 192.21.0.4 | centos7.7 | &nbsp;
+e.cdh.com | 192.21.0.5 | centos7.7 | &nbsp;
+mysql.cdh.com | 172.21.0.10 | mysql5.7容器 | &nbsp;
 
 
 # 2.下载
 
 ## 2.1 CM软件包下载
-[http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/RPMS/x86_64/](http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/RPMS/x86_64/)
+[https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/RPMS/x86_64/](https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/RPMS/x86_64/)
 ![cm](img/2020-02-28.01.png)
-红框所圈为必须要下载的rpm包，其它包可选。
+下载目录中所有rpm包
+
 
 ## 2.2 Parcels下载
-[http://archive.cloudera.com/cdh5/parcels/5.16.2.8/](http://archive.cloudera.com/cdh5/parcels/5.16.2.8/)
+[https://archive.cloudera.com/cdh6/6.2.1/parcels/](https://archive.cloudera.com/cdh6/6.2.1/parcels/)
 ![parcels](img/2020-02-28.02.png)
 
 el7 对应centos7  
 el6 对应centos6
 
-注：*parcel、sha1、manifest三个文件传至指定目录*：/opt/cloudera/parcel-repo
+下载parcel、sha1、manifest三个文件即可。
 
 
 ## 2.3 仓库文件下载
-[cloudera-manager.repo](http://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo)
+[https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/cloudera-manager.repo](https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/cloudera-manager.repo)
 
+目的是自定义yum安装源时，在此文件基础上修改。
 
-其它rpm包及bin文件存放目录不限
+## 2.4 Mysql驱动包下载
+要求使用5.1.26以上版本的jdbc驱动，下载地址：
+[mysql-connector-java-5.1.47.tar.gz](https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz)
 
-## 2.4 安装配置httpd
-将下载的rmp包等文件，复制到/var/www/html/目录下，供下载，目录结构：
+## 2.5 安装配置httpd
+找任意一台机器，安装apache http服务,创建安装源，用于配置本地安装源，提供包下载
+```shell script
+yum -y install httpd createrepo
+
+```
+将下载的所有安装文件，复制到/var/www/html/目录下，其目录结构如下：
+```shell script
+cloudera-repos
+├── cdh6.2.1
+│   ├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel
+│   ├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1
+│   └── manifest.json
+├── cm6.2.1
+│   ├── allkeys.asc
+│   ├── cloudera-manager-agent-6.2.1-1426065.el7.x86_64.rpm
+│   ├── cloudera-manager-daemons-6.2.1-1426065.el7.x86_64.rpm
+│   ├── cloudera-manager-server-6.2.1-1426065.el7.x86_64.rpm
+│   ├── cloudera-manager-server-db-2-6.2.1-1426065.el7.x86_64.rpm
+│   ├── enterprise-debuginfo-6.2.1-1426065.el7.x86_64.rpm
+│   └── oracle-j2sdk1.8-1.8.0+update181-1.x86_64.rpm
+└── mysql-connector-java-5.1.47.tar.gz
+```
+在cm6.2.1目录下生成rpm源数据
+```shell script
+createrepo .
+chmod 777 -R cloudera-repos
+```
 
 
 # 3. 安装
@@ -47,9 +77,71 @@ el6 对应centos6
 
 mysql安装参考文献：[CDH 依赖的MySQL 数据库安装配置说明](https://www.cndba.cn/cndba/dave/article/3374)
 
-### 3.1.1 复制mysql驱动包
-将 mysql-connector-java-5.1.47-bin.jar 文件上传至 CM Server节点上的 /usr/share/java/ 目录下并重命名为mysql-connector-java.jar（如果/usr/share/java/目录不存在，需要手动创建）
+CDH官网推荐mysqld.cnf配置：
 ```shell script
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+transaction-isolation = READ-COMMITTED
+# Disabling symbolic-links is recommended to prevent assorted security risks;
+# to do so, uncomment this line:
+symbolic-links = 0
+
+
+key_buffer_size = 32M
+max_allowed_packet = 32M
+thread_stack = 256K
+thread_cache_size = 64
+query_cache_limit = 8M
+query_cache_size = 64M
+query_cache_type = 1
+
+max_connections = 550
+#expire_logs_days = 10
+#max_binlog_size = 100M
+
+#log_bin should be on a disk with enough free space.
+#Replace '/var/lib/mysql/mysql_binary_log' with an appropriate path for your
+#system and chown the specified folder to the mysql user.
+log_bin=/var/lib/mysql/mysql_binary_log
+
+#In later versions of MySQL, if you enable the binary log and do not set
+#a server_id, MySQL will not start. The server_id must be unique within
+#the replicating group.
+server_id=1
+
+binlog_format = mixed
+
+read_buffer_size = 2M
+read_rnd_buffer_size = 16M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+
+# InnoDB settings
+innodb_file_per_table = 1
+innodb_flush_log_at_trx_commit  = 2
+innodb_log_buffer_size = 64M
+innodb_buffer_pool_size = 4G
+innodb_thread_concurrency = 8
+innodb_flush_method = O_DIRECT
+innodb_log_file_size = 512M
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+
+sql_mode=STRICT_ALL_TABLES
+
+
+# 表名不区分大小写
+# lower_case_table_names=1
+
+```
+
+### 3.1.1 复制mysql驱动包
+将mysql-connector-java-5.1.47.tar.gz文件上传至 CM Server节点上的 /usr/share/java/ 目录下并重命名为mysql-connector-java.jar（如果/usr/share/java/目录不存在，需要手动创建）
+```shell script
+tar zxvf mysql-connector-java-5.1.47.tar.gz 
 mkdir /usr/share/java
 cp mysql-connector-java-5.1.47.jar /usr/share/java/mysql-connector-java.jar
 ```
@@ -69,6 +161,7 @@ Cloudera Navigator Audit Server	| nav | nav
 Cloudera Navigator Metadata Server | navms | nav
 Oozie	| oozie | oozie
 
+数据库初始化脚本
 
 ```
 -- 注意scm的数据库不需要创建，在CDH 数据库初始化时会自动创建
@@ -104,18 +197,18 @@ grant all on oozie.* to 'oozie'@'%' identified by 'oozie';
 ## 3.2 Cloudrea Manager安装
 
 ### 3.2.1 修改仓库文件
-修改仓库文件cloudera-manager.repo，把版本号加上
+修改仓库文件cloudera-manager.repo
   
 ```shell script
 vi cloudera-manager.repo
 ```
+
 ```shell script
 [cloudera-manager]
-# Packages for Cloudera Manager, Version 5, on RedHat or CentOS 7 x86_64
-name=Cloudera Manager
-baseurl=https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5.16.2/   # 主要改这里的版本号
-gpgkey =https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
-gpgcheck = 1
+name=Cloudera Manager 6.2.1
+baseurl=https://a.cdh.com/cloudera-repos/cm6.2.1/  # 改为本地安装源地址
+gpgcheck=0  # 不做gpg校验
+enabled=1
 ```
 
 
@@ -127,8 +220,8 @@ cp cloudera-manager.repo /etc/yum.repos.d
  * 验证repo文件是否生效？
 
  ```shell script
-# 清除yum缓存
-yum clean all
+# 清除并重新生成yum缓存
+yum clean all && yum makecache
 # 列举yum可用的cloudera安装包
 yum list | grep cloudera
 ```
@@ -144,12 +237,34 @@ jdk.x86_64                                2000:1.6.0_31-fcs              clouder
 oracle-j2sdk1.7.x86_64                    1.7.0+update67-1               cloudera-manager
 ```
 
-### 3.2.2 安装cloudera-manager依赖的RPM包
-切换回/opt/cloudera-manager目录,采用本地安装方式，不会去远程仓库下载rpm包,达到离线安装效果，不做gpg检验
+### 3.2.2 安装cloudera-manager
 ```shell script
-yum localinstall --nogpgcheck *.rpm
+
+# 安装openjdk8
+yum install oracle-j2sdk1.8
+
+# 安装cm manager(只需在cm server节点安装)
+yum install cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
+
 ```
-按提示完成即可
+### 3.2.3 配置本地Parcel存储库
+Cloudera Manager Server安装完成后，进入到本地Parcel存储库目录：
+```shell script
+mkdir -p /opt/cloudera/parcel-repo
+```
+将cdh6.2.1目录下的三个parcel安装文件上传至/opt/cloudera/parcel-repo/目录下。
+修改CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1文件名
+```shell script
+mv CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1 CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha
+```
+
+最终/opt/cloudera/parcel-repo目录内容如下：
+```shell script
+parcel-repo
+├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel
+├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha
+└── manifest.json
+```
 
 
 ### 3.2.3 配置数据库脚本
@@ -189,62 +304,8 @@ com.cloudera.cmf.db.password=scm
 ```
 
 
+------
 
-### ~~3.2.3 启动安装器~~
-进入cloudera-manager-installer.bin文件目录，赋予可执行权限
- ```shell script
-chmod +x cloudera-manager-installer.bin
-
-# 安装
-./cloudera-manager-installer.bin --skip_repo_package=1
-```
-遇到错误提示：
-如果要继续安装，要求要删除文件：/etc/cloudera-scm-server/db.properties
-![error](img/2020-03-02.01.png)
-删除文件
-```shell script
-rm /etc/cloudera-scm-server/db.properties
-```
-
-重新运行安装命令，按提示一步一步完成即可。
-
-![progress](img/2020-03-02.02.png)
-安装JDK时,界面一直卡在20%进度，不动了，推测原因，JDK远程下载太慢。
-```shell script
-[root@4fe527430f25 cloudera-manager-installer]# cat /var/log/cloudera-manager-installer/1.install-oracle-j2sdk1.7.log
-Loaded plugins: fastestmirror, ovl
-Loading mirror speeds from cached hostfile
- * base: ap.stykers.moe
- * extras: mirrors.aliyun.com
- * updates: mirrors.cn99.com
-Resolving Dependencies
---> Running transaction check
----> Package oracle-j2sdk1.7.x86_64 0:1.7.0+update67-1 will be installed
---> Finished Dependency Resolution
-
-Dependencies Resolved
-
-================================================================================
- Package             Arch       Version              Repository            Size
-================================================================================
-Installing:
- oracle-j2sdk1.7     x86_64     1.7.0+update67-1     cloudera-manager     135 M
-
-Transaction Summary
-================================================================================
-Install  1 Package
-
-Total download size: 135 M
-Installed size: 279 M
-Downloading packages:
-
-
-Exiting on user cancel
-```
-查看安装日志，与推测一致。
-*不推荐使用cloudera-manager-installer.bin安装器进行安装*
-
-我的机器已有JDK环境，不再需要安装
 
 ### 3.2.3 启动Cloudera-Manager
 systemctl start cloudera-scm-server 或者  /etc/init.d/cloudera-scm-server start
