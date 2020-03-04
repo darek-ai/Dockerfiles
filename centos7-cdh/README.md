@@ -66,6 +66,23 @@ cloudera-repos
 createrepo .
 ```
 
+### 2.5.1 配置httpd
+修改配置文件 /etc/httpd/conf/httpd.conf
+```shell script
+vi /etc/httpd/conf/httpd.conf
+```
+找到如下行，增加 .parcel 使其支持parcel格式文件
+```shell script
+...
+AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz .parcel
+...
+```
+退出编辑，重启httpd
+```shell script
+systemctl restart httpd
+```
+
 
 # 3. 安装
 ## 3.1 MYSQL安装
@@ -329,7 +346,7 @@ tcp        0      0 0.0.0.0:7180            0.0.0.0:*               LISTEN
 ![安装向导](img/2020-03-02.03.png)
 
 * 为CDH集群安装指定主机，手工输入机器名
-![指定安装机器](img/2020-03-02.04.png)
+![指定安装机器](img/2020-03-04.01.png)
 
 * 下一步，选择CDH版本
 ![](img/2020-03-02.05.png)
