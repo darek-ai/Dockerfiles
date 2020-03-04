@@ -4,7 +4,7 @@
 
 ############################################
 
-FROM centos7-ssh:1.0
+FROM centos:7.7.1908
 
 # 镜像创建者
 MAINTAINER Roy dekota@126.com
@@ -15,7 +15,7 @@ RUN echo $TIME_ZONE > /etc/timezone \
 && ln -sf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime
 
 # libaio numactl perl为mysql-community-server依赖
-RUN yum install -y ntp libaio numactl perl && yum clean all
+RUN yum install -y net-tools which wget sudo less ntp libaio numactl perl && yum clean all
 
 # 复制并解压tar包文件到镜像指定目录
 ADD repos/mysql-5.7.29-1.el7.x86_64.rpm-bundle.tar /root/
@@ -32,12 +32,21 @@ RUN rpm -ivh mysql-community-common-5.7.29-1.el7.x86_64.rpm \
  && rpm -ivh mysql-community-client-5.7.29-1.el7.x86_64.rpm \
  && rpm -ivh mysql-community-server-5.7.29-1.el7.x86_64.rpm
 
+# 删除安装包
+RUN rm -rf mysql-community-*.rpm
 
 
-ENV MYSQL_USER=root
-ENV MYSQL_PASS=123456
+ENV MYSQL_PASSWORD=123456
 ENV LC_ALL=en_US.UTF-8
 
+COPY setup.sh /root/
+COPY setpassword.sql /root/
+RUN chmod +x setup.sh
+
 EXPOSE 3306
+
+HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD ["/usr/sbin/init"]
+
+ENTRYPOINT ["setup.sh"]
 
 
