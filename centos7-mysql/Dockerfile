@@ -30,7 +30,8 @@ RUN rpm -ivh mysql-community-common-5.7.29-1.el7.x86_64.rpm \
  && rpm -ivh mysql-community-libs-compat-5.7.29-1.el7.x86_64.rpm \
  && rpm -ivh mysql-community-devel-5.7.29-1.el7.x86_64.rpm \
  && rpm -ivh mysql-community-client-5.7.29-1.el7.x86_64.rpm \
- && rpm -ivh mysql-community-server-5.7.29-1.el7.x86_64.rpm
+ && rpm -ivh mysql-community-server-5.7.29-1.el7.x86_64.rpm \
+ && yum clean all
 
 # 删除安装包
 RUN rm -rf mysql-community-*.rpm
@@ -45,8 +46,7 @@ RUN chmod +x setup.sh
 
 EXPOSE 3306
 
+# 健康检查
 HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD ["/usr/sbin/init"]
 
 ENTRYPOINT ["setup.sh"]
-
-
