@@ -180,7 +180,6 @@ Oozie	| oozie | oozie
 数据库初始化脚本
 
 ```
--- 注意scm的数据库不需要创建，在CDH 数据库初始化时会自动创建
 create database scm default character set utf8 default collate utf8_general_ci;
 grant all on scm.* to 'scm'@'%' identified by 'scm';
 
