@@ -42,15 +42,15 @@ COPY setpassword.sql /root/
 RUN chmod +x setup.sh
 
 
-# 删除安装包
-RUN rm -rf mysql-community-*.rpm
+# 删除安装包,rpm安装会自动产生数据文件目录,需要删除
+RUN rm -rf mysql-community-*.rpm && rm -rf /var/lib/mysql
 
 
 EXPOSE 3306
 
 # 健康检查
-HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD ["/usr/sbin/init"]
+HEALTHCHECK --interval=5s --timeout=2s --retries=3 CMD ["/usr/sbin/mysqld"]
 
 CMD ["/usr/sbin/init"]
 
-ENTRYPOINT ["/root/setup.sh"]
+# ENTRYPOINT ["/root/setup.sh"]

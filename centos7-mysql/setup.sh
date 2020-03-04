@@ -3,10 +3,11 @@
 set -e
 
 echo '【1】MYSQL Initialize Insecure'
-mysqld --initialize-insecure
+mysqld --initialize-insecure --user=mysql
 echo ''
 
 echo '【2】Starting MYSQL...'
+# /etc/init.d/mysqld restart
 systemctl start mysqld
 echo ''
 
