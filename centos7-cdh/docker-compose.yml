@@ -39,7 +39,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   a.cdh.com:
-    image: centos7-cdh:1.0
+    image: centos7-cdh:6.2.1
     container_name: a.cdh.com
     ports:            # 暴露端口
       - "50070:50070" # hadoop web ui
@@ -75,7 +75,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   b.cdh.com:
-    image: centos7-cdh:1.0
+    image: centos7-cdh:6.2.1
     container_name: b.cdh.com
     ports:            # 暴露端口
       - "50071:50070" # hadoop web ui
@@ -107,7 +107,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   c.cdh.com:
-    image: centos7-cdh:1.0
+    image: centos7-cdh:6.2.1
     container_name: c.cdh.com
     ports:            # 暴露端口
       - "50072:50070" # hadoop web ui
@@ -139,7 +139,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   d.cdh.com:
-    image: centos7-cdh:1.0
+    image: centos7-cdh:6.2.1
     container_name: d.cdh.com
     ports:            # 暴露端口
       - "50073:50070" # hadoop web ui
