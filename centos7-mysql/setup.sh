@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 echo '【1】MYSQL Initialize Insecure'
@@ -19,5 +20,3 @@ echo ''
 
 echo '【5】MYSQL Installed Successfully.'
 echo ''
-
-/usr/sbin/init
