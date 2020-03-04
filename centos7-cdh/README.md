@@ -221,7 +221,7 @@ vi cloudera-manager.repo
 ```shell script
 [cloudera-manager]
 name=Cloudera Manager 6.2.1
-baseurl=https://a.cdh.com/cloudera-repos/cm6.2.1/  # 改为本地安装源地址
+baseurl=http://a.cdh.com/cloudera-repos/cm6.2.1/  # 改为本地安装源地址
 gpgcheck=0  # 不做gpg校验
 enabled=1
 ```
