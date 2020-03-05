@@ -11,7 +11,53 @@ e.cdh.com | 192.21.0.5 | centos7.7 | &nbsp;
 mysql.cdh.com | 172.21.0.10 | mysql5.7容器 | &nbsp;
 
 
-# 2.下载
+
+## 1.1 环境准备
+
+### 1.1.1 SSH免密登录
+配置略...
+
+### 1.1.2 设置SELinux模式
+不关闭可能导致Apache http服务无法访问。
+* 1 查看SELinux状态：getenforce 如果是Permissive或者Disabled则可以继续安装，如果显示enforcing，则需要进行以下步骤修改模式
+* 2 编辑/etc/selinux/config 
+* 3 修改SELINUX=enforcing行内容为SELINUX=permissive或者SELINUX=disabled
+* 4 重启系统
+
+### 1.1.3 设置SWAP交换
+vm.swappinessl系统默认为60，过于频繁的内存交换，影响hadoop集群性能
+修改/etc/sysctl.conf配置文件，增加如下配置，永久生效
+```shell script
+# 配置为1时表示当内存使用超过99时，才使用交换空间，这里可以配置为1-10
+vm.swappiness = 1
+```
+查看修改是否生效
+```shell script
+[root@cdh ~]# cat /proc/sys/vm/swappiness
+1
+```
+
+### 1.1.4 关闭透明大页面
+在/etc/rc.d/rc.local脚本文件中添加以下代码，使其永久生效
+```shell script
+if test -f /sys/kernel/mm/transparent_hugepage/enabled; then
+   echo never > /sys/kernel/mm/transparent_hugepage/enabled
+fi
+if test -f /sys/kernel/mm/transparent_hugepage/defrag; then
+   echo never > /sys/kernel/mm/transparent_hugepage/defrag
+fi
+```
+赋予rc.local脚本可执行权限
+```shell script
+[root@cdh ~]# chmod +x /etc/rc.d/rc.local
+```
+
+
+### 1.1.5 NTP时钟同步
+待补充...
+
+
+# 2.下载离线安装包
 
 ## 2.1 CM软件包下载
 [https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/RPMS/x86_64/](https://archive.cloudera.com/cm6/6.2.1/redhat7/yum/RPMS/x86_64/)
@@ -38,12 +84,14 @@ el6 对应centos6
 要求使用5.1.26以上版本的jdbc驱动，下载地址：
 [mysql-connector-java-5.1.47.tar.gz](https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz)
 
-## 2.5 安装配置httpd
+## 2.5 配置yum安装源
+
 找任意一台机器，安装apache http服务,创建安装源，用于配置本地安装源，提供包下载
 ```shell script
 yum -y install httpd createrepo
-
 ```
+
+
 将下载的所有安装文件，复制到/var/www/html/目录下，其目录结构如下：
 ```shell script
 cloudera-repos
@@ -66,7 +114,7 @@ cloudera-repos
 createrepo .
 ```
 
-### 2.5.1 配置httpd
+### 2.5.1 配置httpd 新增解析文件类型
 修改配置文件 /etc/httpd/conf/httpd.conf
 ```shell script
 vi /etc/httpd/conf/httpd.conf
