@@ -208,6 +208,7 @@ sql_mode=STRICT_ALL_TABLES
 ```
 
 ### 3.1.1 复制mysql驱动包
+针对所有节点
 将mysql-connector-java-5.1.47.tar.gz文件上传至 CM Server节点上的 /usr/share/java/ 目录下并重命名为mysql-connector-java.jar（如果/usr/share/java/目录不存在，需要手动创建）
 ```shell script
 tar zxvf mysql-connector-java-5.1.47.tar.gz 
@@ -431,8 +432,15 @@ tcp        0      0 0.0.0.0:7180            0.0.0.0:*               LISTEN
 ![](img/2020-03-04.08.png)
 
 ### 3.2.5 组件服务安装
-* 1. 自定义选择要安装的服务
+* 1.自定义选择要安装的服务
 ![](img/2020-03-05.01.png)
 
-* 2. 按规划为各节点分布角色
+* 2.按规划为各节点分布角色
 ![](img/2020-03-05.02.png)
+
+* 3.配置hive元数据库连接
+![](img/2020-03-05.04.png)
+
+* 4.组件参数配置
+配置时，要考虑各存储目录所需磁盘空间以及对同一磁盘读写开销可能还来的性能问题，不同的应用目录，最好分布于不同的挂载设备
+![](img/2020-03-05.05.png)
