@@ -84,7 +84,6 @@ services:
       - "19887:19888" # mapreduce history job
       - "10002:10000" # hiveserver2
       - "10003:10002" # hiveserver2 webui
-      - "7181:7180"   # cloudera manager
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "a.cdh.com:172.21.0.2"
       - "b.cdh.com:172.21.0.3"
@@ -116,7 +115,6 @@ services:
       - "19886:19888" # mapreduce history job
       - "10004:10000" # hiveserver2
       - "10005:10002" # hiveserver2 webui
-      - "7182:7180"   # cloudera manager
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "a.cdh.com:172.21.0.2"
       - "b.cdh.com:172.21.0.3"
@@ -148,7 +146,6 @@ services:
       - "19885:19888" # mapreduce history job
       - "10006:10000" # hiveserver2
       - "10007:10002" # hiveserver2 webui
-      - "7183:7180"   # cloudera manager
     extra_hosts:      # 给容器/etc/hosts文件添加ip域名映射
       - "a.cdh.com:172.21.0.2"
       - "b.cdh.com:172.21.0.3"
