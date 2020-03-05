@@ -33,7 +33,7 @@ vm.swappiness = 1
 ```
 查看修改是否生效
 ```shell script
-[root@cdh ~]# cat /proc/sys/vm/swappiness
+[root@446898a957e3 ~]# cat /proc/sys/vm/swappiness
 1
 ```
 
@@ -49,7 +49,7 @@ fi
 ```
 赋予rc.local脚本可执行权限
 ```shell script
-[root@cdh ~]# chmod +x /etc/rc.d/rc.local
+[root@446898a957e3 ~]# chmod +x /etc/rc.d/rc.local
 ```
 
 
