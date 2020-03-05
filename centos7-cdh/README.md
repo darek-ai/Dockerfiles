@@ -128,7 +128,11 @@ AddType application/x-gzip .gz .tgz .parcel
 ```
 退出编辑，重启httpd
 ```shell script
+# 重启
 systemctl restart httpd
+
+# 设置开机自动启动
+systemctl enable httpd
 ```
 
 
@@ -285,8 +289,10 @@ cp cloudera-manager.repo /etc/yum.repos.d
  ```shell script
 # 清除并重新生成yum缓存
 yum clean all && yum makecache
+
 # 列举yum可用的cloudera安装包
 yum list | grep cloudera
+
 ```
 能列出说明仓库有效
 ```shell script
@@ -315,6 +321,7 @@ Cloudera Manager Server安装完成后，进入到本地Parcel存储库目录：
 ```shell script
 mkdir -p /opt/cloudera/parcel-repo
 ```
+
 将cdh6.2.1目录下的三个parcel安装文件上传至/opt/cloudera/parcel-repo/目录下。
 修改CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1文件名
 ```shell script
@@ -368,7 +375,7 @@ com.cloudera.cmf.db.password=scm
 ```
 
 
-------
+---
 
 
 ### 3.2.3 启动Cloudera-Manager
@@ -385,9 +392,9 @@ systemctl start cloudera-scm-server 或者  /etc/init.d/cloudera-scm-server star
 [root@4fe527430f25 init.d]# netstat -ntl | grep 7180
 tcp        0      0 0.0.0.0:7180            0.0.0.0:*               LISTEN
 ```
-在浏览器访问：http://a.cdh.com:7180/
+浏览器访问正常：http://a.cdh.com:7180/
 
-默认用户名和密码均为：admin
+默认登录用户名和密码均为：admin
 
 
 ### 3.2.4 开始安装CDH
