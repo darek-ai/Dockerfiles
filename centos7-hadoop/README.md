@@ -619,7 +619,11 @@ stored as textfile;
 
 将文件数据导入hive
 ```shell script
-load data local inpath '/home/hadoop/employee.txt' overwrite into table employee;
+hive> load data local inpath '/home/hadoop/employee.txt' overwrite into table employee;
+Loading data to table fintech.employee
+OK
+Time taken: 2.212 seconds
+
 ```
 
 
