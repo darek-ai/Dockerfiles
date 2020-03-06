@@ -567,7 +567,59 @@ nohup hive --service hiveserver2 >/dev/null 2>&1 &
 ### 【4】运行hive客户端
 可在任意节点启动
 ```
-hive
+[hadoop@52b17e52bd10 ~]$ hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/local/apache-hive-2.3.6-bin/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/usr/local/hadoop-2.7.7/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
+
+Logging initialized using configuration in file:/usr/local/apache-hive-2.3.6-bin/conf/hive-log4j2.properties Async: true
+Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+
+# 列举数据库
+hive> show databases;
+OK
+default
+Time taken: 2.075 seconds, Fetched: 1 row(s)
+hive>
+
+# 创建数据库
+hive> create database if not exists fintech;
+OK
+Time taken: 1.124 seconds
+```
+切换数据库
+```shell script
+hive> use fintech;
+OK
+Time taken: 0.063 seconds
+```
+
+创建表
+```shell script
+create table if not exists employee 
+(eid int,name String,salary String, destination String) 
+comment 'Employee details'
+row format delimited
+fields terminated by '\t'
+lines terminated by '\n'
+stored as textfile;
 
 ```
+在本地准备好文件employee.txt，内容为：
+```shell script
+[hadoop@52b17e52bd10 ~]$ cat employee.txt
+1201	Gopal	45000	Technical	manager
+1202	Manisha 45000	Proof	reader
+1203	Masthanvali	40000	Technical writer
+1204	Kiran	40000	Hr Admin
+1205	Kranthi	30000	Op Admin
+```
+
+将文件数据导入hive
+```shell script
+load data local inpath '/home/hadoop/employee.txt' overwrite into table employee;
+```
+
 
