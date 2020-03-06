@@ -4,7 +4,7 @@
 #
 #***************************************************************
 
-FROM centos7-jdk:1.0
+FROM centos7-jdk:1.8
 
 ARG RELEASE_VERSION="1.0"
 
