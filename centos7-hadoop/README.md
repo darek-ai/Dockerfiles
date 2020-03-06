@@ -506,8 +506,12 @@ http://hadoop4:16010/   -->     http://localhost:16013/
 ## Hive 安装配置（补充）
 
 ### 准备工作
-在mysql中创建hive要用的元数据库(字符集：latin1)，库名与配置文件中保持一致，并创建独立用户，并授权远程机器访问.
+在mysql中创建hive要用的元数据库，库名与配置文件中保持一致，并创建独立用户，并授权远程机器访问.
+```
+create database hive default character set utf8 default collate utf8_general_ci;
+grant all on hive.* to 'hive'@'%' identified by 'hive123';
 
+```
 
 先创建好hdfs文件目录
 ```
