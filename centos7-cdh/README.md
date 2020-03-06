@@ -36,7 +36,7 @@ vi /etc/sysctl.conf
 # 配置为1时表示当内存使用超过99时，才使用交换空间，这里可以配置为1-10
 vm.swappiness = 1
 ```
-重启机器
+
 查看修改是否生效
 ```shell script
 [root@446898a957e3 ~]# cat /proc/sys/vm/swappiness
