@@ -98,6 +98,34 @@ systemctl start ntpd
 systemctl enable ntpd
 ```
 
+* 查看服务状态
+Server节点
+```shell script
+[root@a9424d0b8535 ~]# ntpstat
+synchronised to local net (127.127.1.0) at stratum 6
+   time correct to within 11 ms
+   polling server every 64 s
+
+[root@a9424d0b8535 ~]# ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*LOCAL(0)        .LOCL.           5 l   14   64  377    0.000    0.000   0.000
+
+```
+其它节点
+```shell script
+[root@bafae4bd53af ~]# ntpstat
+synchronised to NTP server (172.21.0.2) at stratum 7
+   time correct to within 19 ms
+   polling server every 64 s
+
+[root@bafae4bd53af ~]# ntpq -p
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*a.cdh.com       LOCAL(0)         6 u   14   64  377    0.096    0.025   0.031
+
+```
+
 
 # 2.下载离线安装包
 
