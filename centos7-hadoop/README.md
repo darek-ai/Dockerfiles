@@ -626,4 +626,32 @@ Time taken: 2.212 seconds
 
 ```
 
+查询表数据：
+```shell script
+# 全表
+hive> select * from employee;
+OK
+1201	Gopal	45000	Technical
+1202	Manisha 45000	Proof	reader
+1203	Masthanvali	40000	Technical writer
+1204	Kiran	40000	Hr Admin
+1205	Kranthi	30000	Op Admin
+Time taken: 1.408 seconds, Fetched: 5 row(s)
+
+# 精确匹配
+hive> select * from employee where eid=1205;
+OK
+1205	Kranthi	30000	Op Admin
+Time taken: 0.421 seconds, Fetched: 1 row(s)
+
+# 模糊查询
+hive> select * from employee where name like 'Ma%';
+OK
+1202	Manisha 45000	Proof	reader
+1203	Masthanvali	40000	Technical writer
+Time taken: 0.188 seconds, Fetched: 2 row(s)
+
+
+```
+
 
