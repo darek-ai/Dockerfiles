@@ -27,11 +27,16 @@ mysql.cdh.com | 172.21.0.10 | mysql5.7容器 | &nbsp;
 
 ### 1.1.3 设置SWAP交换
 vm.swappinessl系统默认为60，过于频繁的内存交换，影响hadoop集群性能
-修改/etc/sysctl.conf配置文件，增加如下配置，永久生效
+编辑/etc/sysctl.conf文件(如果文件不存在，则创建)
+```shell script
+vi /etc/sysctl.conf
+```
+增加如下配置，永久生效
 ```shell script
 # 配置为1时表示当内存使用超过99时，才使用交换空间，这里可以配置为1-10
 vm.swappiness = 1
 ```
+重启机器
 查看修改是否生效
 ```shell script
 [root@446898a957e3 ~]# cat /proc/sys/vm/swappiness
