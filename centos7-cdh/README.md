@@ -55,7 +55,46 @@ fi
 
 
 ### 1.1.5 NTP时钟同步
-待补充...
+#### 安装NTP服务
+```shell script
+yum -y install ntp
+```
+#### 修改配置文件
+```shell script
+vim /etc/ntp.conf
+```
+* 所有节点
+
+在restrict附近添加下面2行：
+```shell script
+restrict 172.21.0.2 nomodify notrap nopeer noquery  # 本机主机ip
+restrict 172.21.0.1 mask 255.255.255.0 nomodify notrap  # 网关地址和子网掩码
+```
+同时，注释掉默认的ntp服务器
+```shell script
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+```
+
+* NTP Server节点
+```shell script
+server 127.127.1.0      # 这里如果有已经存在的NTP服务，则可以填写相应地址
+Fudge 127.127.1.0 stratum 10
+```
+
+* NTP Client节点
+```shell script
+server 172.21.0.2      # 将时钟同步服务器地址指向NTP Server
+Fudge 172.21.0.2 stratum 10
+```
+
+* 所有启动NTP，并开启自动启动
+```shell script
+systemctl start ntpd
+systemctl enable ntpd
+```
 
 
 # 2.下载离线安装包

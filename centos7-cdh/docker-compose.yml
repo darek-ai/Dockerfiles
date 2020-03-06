@@ -18,7 +18,6 @@ services:
       - "b.cdh.com:172.21.0.3"
       - "c.cdh.com:172.21.0.4"
       - "d.cdh.com:172.21.0.5"
-      - "e.cdh.com:172.21.0.6"
       - "mysql.cdh.com:172.21.0.10"
     networks:
       cdhnet:
@@ -55,7 +54,6 @@ services:
       - "b.cdh.com:172.21.0.3"
       - "c.cdh.com:172.21.0.4"
       - "d.cdh.com:172.21.0.5"
-      - "e.cdh.com:172.21.0.6"
       - "mysql.cdh.com:172.21.0.10"
     networks:
       cdhnet:
@@ -63,6 +61,7 @@ services:
     volumes:
       - /Users/roy/Downloads/soft/cloudera-repos:/var/www/html/cloudera-repos
       - /Users/roy/Downloads/soft/cloudera-repos/cdh6.2.1:/opt/cloudera/parcel-repo
+      - /Users/roy/Docker/cdh/ntp/a.cdh.com/ntp.conf:/etc/ntp.conf
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -89,11 +88,12 @@ services:
       - "b.cdh.com:172.21.0.3"
       - "c.cdh.com:172.21.0.4"
       - "d.cdh.com:172.21.0.5"
-      - "e.cdh.com:172.21.0.6"
       - "mysql.cdh.com:172.21.0.10"
     networks:
       cdhnet:
         ipv4_address: 172.21.0.3
+    volumes:
+      - /Users/roy/Docker/cdh/ntp/b.cdh.com/ntp.conf:/etc/ntp.conf
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -120,11 +120,12 @@ services:
       - "b.cdh.com:172.21.0.3"
       - "c.cdh.com:172.21.0.4"
       - "d.cdh.com:172.21.0.5"
-      - "e.cdh.com:172.21.0.6"
       - "mysql.cdh.com:172.21.0.10"
     networks:
       cdhnet:
         ipv4_address: 172.21.0.4
+    volumes:
+      - /Users/roy/Docker/cdh/ntp/c.cdh.com/ntp.conf:/etc/ntp.conf
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
@@ -151,11 +152,12 @@ services:
       - "b.cdh.com:172.21.0.3"
       - "c.cdh.com:172.21.0.4"
       - "d.cdh.com:172.21.0.5"
-      - "e.cdh.com:172.21.0.6"
       - "mysql.cdh.com:172.21.0.10"
     networks:
       cdhnet:
         ipv4_address: 172.21.0.5
+    volumes:
+      - /Users/roy/Docker/cdh/ntp/d.cdh.com/ntp.conf:/etc/ntp.conf
     depends_on:
       - mysql.cdh.com
     privileged: true  # 允许容器中运行一些特权命令
