@@ -189,27 +189,12 @@ cloudera-repos
 createrepo .
 ```
 
-### 2.5.1 配置httpd 新增解析文件类型
-修改配置文件 /etc/httpd/conf/httpd.conf
+启动httpd
 ```shell script
-vi /etc/httpd/conf/httpd.conf
-```
-找到如下行，增加 .parcel 使其支持parcel格式文件
-```shell script
-...
-AddType application/x-compress .Z
-AddType application/x-gzip .gz .tgz .parcel
-...
-```
-退出编辑，重启httpd
-```shell script
-# 重启
-systemctl restart httpd
+systemctl start httpd
 
-# 设置开机自动启动
 systemctl enable httpd
 ```
-
 
 # 3. 安装
 ## 3.1 MYSQL安装
