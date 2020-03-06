@@ -36,12 +36,12 @@ echo ""
 
 
 echo "--------------- 启动Hive hiveserver2服务 -----------------"
-echo "hadoop3节点启动hiveserver2..."
-ssh -q hadoop@hadoop3 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
+echo "hadoop1节点启动hiveserver2..."
+ssh -q hadoop@hadoop1 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
 echo ""
 
-echo "hadoop4节点启动hiveserver2..."
-ssh -q hadoop@hadoop4 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
+echo "hadoop2节点启动hiveserver2..."
+ssh -q hadoop@hadoop2 "nohup $HIVE_HOME/bin/hive --service hiveserver2 >/dev/null 2>&1 &"
 echo ""
 
 echo "--------------- 启动Hive服务启动完成 -----------------"
