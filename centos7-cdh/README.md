@@ -4,10 +4,10 @@
 
 机器名 | ip地址 | 操作系统 | 备注 |
 -------------| -------------- | -------------|-------------
-a.cdh.com | 192.21.0.2 | centos7.7 | cloudera manager master
-b.cdh.com | 192.21.0.3 | centos7.7 | &nbsp;
-c.cdh.com | 192.21.0.4 | centos7.7 | &nbsp;
-e.cdh.com | 192.21.0.5 | centos7.7 | &nbsp;
+a.cdh.com | 172.21.0.2 | centos7.7 | cloudera manager master
+b.cdh.com | 172.21.0.3 | centos7.7 | &nbsp;
+c.cdh.com | 172.21.0.4 | centos7.7 | &nbsp;
+e.cdh.com | 172.21.0.5 | centos7.7 | &nbsp;
 mysql.cdh.com | 172.21.0.10 | mysql5.7容器 | &nbsp;
 
 各节点角色分布规划
@@ -80,7 +80,9 @@ restrict 172.21.0.1 mask 255.255.255.0 nomodify notrap  # 网关地址和子网�
 
 * NTP Server节点
 ```shell script
-server 127.127.1.0      # 这里如果有已经存在的NTP服务，则可以填写相应地址
+# 将时钟同步服务器地址指向NTP Server
+# 如果有已经存在的NTP服务，这里可以直接用，没有就把自己当作服务节点
+server 127.127.1.0
 Fudge 127.127.1.0 stratum 10
 ```
 
