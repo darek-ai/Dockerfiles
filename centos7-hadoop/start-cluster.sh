@@ -75,6 +75,8 @@ ssh -q hadoop@hadoop4 "$HBASE_HOME/bin/start-hbase.sh"
 echo "Hbase started done."
 echo ""
 
+./start-hive.sh
+
 echo "----------------------集群启动成功----------------------"
 
 
