@@ -65,7 +65,7 @@ for rnode in ${rmArray[@]}; do
 done
 echo ""
 
-echo "---------------启动jobhistory---------------"
+echo "---------------启动jobhistory----------"
 ssh -q hadoop@hadoop1 "$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver"
 echo "jobhistory started done."
 echo ""
@@ -76,3 +76,5 @@ echo "Hbase started done."
 echo ""
 
 echo "----------------------集群启动成功----------------------"
+
+
