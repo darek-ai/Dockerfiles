@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t centos7-hadoop:1.0 .
+docker build -t centos7-hadoop:2.7.7 .

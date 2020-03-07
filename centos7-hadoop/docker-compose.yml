@@ -10,7 +10,7 @@ networks:
 # 容器组定义
 services:
   hadoop1:            # 容器名称
-    image: centos7-hadoop:1.0
+    image: centos7-hadoop:2.7.7
     container_name: hadoop1 #容器名称，指定后服务编排时将不支持复制
     ports:            # 暴露端口
       - "18088:8088"  # yarn web ui
@@ -46,7 +46,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   hadoop2:            # 容器名称
-    image: centos7-hadoop:1.0
+    image: centos7-hadoop:2.7.7
     container_name: hadoop2 #容器名称，指定后服务编排时将不支持复制
     ports:            # 暴露端口
       - "18087:8088"  # yarn web ui
@@ -82,7 +82,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   hadoop3:            # 容器名称
-    image: centos7-hadoop:1.0
+    image: centos7-hadoop:2.7.7
     container_name: hadoop3 #容器名称，指定后服务编排时将不支持复制
     ports:            # 暴露端口
       - "18086:8088"  # yarn web ui
@@ -118,7 +118,7 @@ services:
     tty: true         # 对应docker run -t 不加这两条，docker容器将会自动退出
 
   hadoop4:            # 容器名称
-    image: centos7-hadoop:1.0
+    image: centos7-hadoop:2.7.7
     container_name: hadoop4 #容器名称，指定后服务编排时将不支持复制
     ports:            # 暴露端口
       - "18085:8088"  # yarn web ui
