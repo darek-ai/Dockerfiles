@@ -75,12 +75,12 @@ vim /etc/ntp.conf
 restrict 172.21.0.2 nomodify notrap nopeer noquery  # 本机主机ip
 restrict 172.21.0.1 mask 255.255.255.0 nomodify notrap  # 网关地址和子网掩码
 ```
-同时，注释掉默认的ntp服务器
+默认的ntp服务器
 ```shell script
-#server 0.centos.pool.ntp.org iburst
-#server 1.centos.pool.ntp.org iburst
-#server 2.centos.pool.ntp.org iburst
-#server 3.centos.pool.ntp.org iburst
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
 ```
 
 * NTP Server节点
