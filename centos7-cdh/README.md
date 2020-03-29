@@ -182,7 +182,7 @@ cloudera-repos
 │   ├── cloudera-manager-server-db-2-6.2.1-1426065.el7.x86_64.rpm
 │   ├── enterprise-debuginfo-6.2.1-1426065.el7.x86_64.rpm
 │   └── oracle-j2sdk1.8-1.8.0+update181-1.x86_64.rpm
-└── mysql-connector-java-5.1.47.tar.gz
+
 ```
 在cm6.2.1目录下生成rpm源数据
 ```shell script
@@ -376,25 +376,6 @@ yum install -y oracle-j2sdk1.8
 # 安装cm manager(只需在cm server节点安装)
 yum install -y cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
 
-```
-### 3.2.3 配置本地Parcel存储库
-Cloudera Manager Server安装完成后，进入到本地Parcel存储库目录：
-```shell script
-mkdir -p /opt/cloudera/parcel-repo
-```
-
-将cdh6.2.1目录下的三个parcel安装文件上传至/opt/cloudera/parcel-repo/目录下。
-修改CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1文件名
-```shell script
-mv CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha1 CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha
-```
-
-最终/opt/cloudera/parcel-repo目录内容如下：
-```shell script
-parcel-repo
-├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel
-├── CDH-6.2.1-1.cdh6.2.1.p0.1425774-el7.parcel.sha
-└── manifest.json
 ```
 
 
